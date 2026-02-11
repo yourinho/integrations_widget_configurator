@@ -129,6 +129,34 @@
     if (detailLayoutSelect) config.detailLayout = detailLayoutSelect.value;
     if (alignSelect) config.align = alignSelect.value;
     config.regions = Array.from(regionCheckboxes).map((c) => parseInt(c.value, 10));
+
+    document.querySelectorAll('.color-hex').forEach((input) => {
+      const key = input.dataset.key;
+      if (key && config.colors) {
+        const val = input.value.trim();
+        config.colors[key] = hexToSixDigit(val) || window.WidgetConfig.DEFAULT_COLORS[key];
+      }
+    });
+  }
+
+  function hexToSixDigit(hex) {
+    if (!hex || !hex.startsWith('#')) return null;
+    const s = hex.slice(1);
+    if (s.length === 6 && /^[0-9a-fA-F]+$/.test(s)) return '#' + s;
+    if (s.length === 3 && /^[0-9a-fA-F]+$/.test(s)) return '#' + s[0] + s[0] + s[1] + s[1] + s[2] + s[2];
+    return null;
+  }
+
+  function resetColorsToDefaults() {
+    const defaults = window.WidgetConfig.DEFAULT_COLORS;
+    config.colors = { ...defaults };
+    Object.keys(defaults).forEach((key) => {
+      const picker = document.getElementById('color-' + key);
+      const hexInput = document.querySelector('.color-hex[data-key="' + key + '"]');
+      if (picker) picker.value = defaults[key];
+      if (hexInput) hexInput.value = defaults[key];
+    });
+    applyCosmeticOptions();
   }
 
   function showUrlError(msg) {
@@ -213,6 +241,34 @@
 
     regionCheckboxes.forEach((cb) => {
       cb.addEventListener('change', reinitWidget);
+    });
+
+    initColorFields();
+  }
+
+  function initColorFields() {
+    const resetBtn = document.querySelector('.btn-reset-colors');
+    if (resetBtn) resetBtn.addEventListener('click', resetColorsToDefaults);
+
+    document.querySelectorAll('.color-field').forEach((field) => {
+      const key = field.dataset.key;
+      if (!key) return;
+      const picker = field.querySelector('input[type="color"]');
+      const hexInput = field.querySelector('.color-hex');
+      if (!picker || !hexInput) return;
+
+      picker.addEventListener('input', () => {
+        hexInput.value = picker.value;
+        syncConfigFromForm();
+        applyCosmeticOptions();
+      });
+
+      hexInput.addEventListener('input', () => {
+        const hex = hexToSixDigit(hexInput.value.trim());
+        if (hex) picker.value = hex;
+        syncConfigFromForm();
+        debounce('color', applyCosmeticOptions);
+      });
     });
   }
 

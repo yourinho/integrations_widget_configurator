@@ -137,6 +137,82 @@ body {
   display: none;
 }
 
+/* ===== Colors Section ===== */
+.form-group-colors {
+  gap: 12px;
+}
+
+.form-group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.btn-reset-colors {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  color: #6b7280;
+  background: transparent;
+  border: 1px solid #E6E8EC;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.btn-reset-colors:hover {
+  color: #2C3534;
+  border-color: #A0A4B1;
+}
+
+.color-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.color-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.color-field label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.color-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.color-input-row input[type="color"] {
+  width: 40px;
+  height: 36px;
+  padding: 2px;
+  border: 1px solid #E6E8EC;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #fff;
+}
+
+.color-input-row input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 2px;
+}
+
+.color-input-row .color-hex {
+  flex: 1;
+  min-width: 0;
+  font-family: monospace;
+  font-size: 13px;
+}
+
 .sidebar-footer {
   padding: 20px 24px;
   border-top: 1px solid #E6E8EC;
