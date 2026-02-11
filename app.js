@@ -11,11 +11,12 @@
     MOBILE: 'mobile',
   };
 
-  const DEBOUNCE_MS = { url: 300, font: 200 };
+  const DEBOUNCE_MS = { url: 300, font: 200, partnerSearch: 400 };
 
   let currentView = PREVIEW_VIEW.DESKTOP;
   let config = null;
   let debounceTimers = {};
+  let partnerLabels = {}; // id -> display label (from search or manual)
 
   function init() {
     config = window.WidgetConfig.getDefaultConfig();
@@ -244,6 +245,135 @@
     });
 
     initColorFields();
+    initPartnerIds();
+  }
+
+  function isValidPartnerId(value) {
+    const n = parseInt(value, 10);
+    return Number.isInteger(n) && n > 0 && String(n) === String(value).trim();
+  }
+
+  function renderPartnerChips() {
+    const container = document.getElementById('partner-chips');
+    if (!container) return;
+    container.innerHTML = (config.partnerIds || []).map((id) => {
+      const label = partnerLabels[id] || String(id);
+      return `<span class="partner-chip" data-id="${id}">${escapeHtml(label)} (${id})<button type="button" class="partner-chip-remove" aria-label="Remove">×</button></span>`;
+    }).join('');
+    container.querySelectorAll('.partner-chip-remove').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const chip = btn.closest('.partner-chip');
+        const id = parseInt(chip.dataset.id, 10);
+        config.partnerIds = config.partnerIds.filter((x) => x !== id);
+        delete partnerLabels[id];
+        renderPartnerChips();
+        reinitWidget();
+      });
+    });
+  }
+
+  function escapeHtml(s) {
+    const div = document.createElement('div');
+    div.textContent = s;
+    return div.innerHTML;
+  }
+
+  function escapeAttr(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/</g, '&lt;');
+  }
+
+  function addPartnerId(id, label) {
+    id = parseInt(id, 10);
+    if (!config.partnerIds.includes(id)) {
+      config.partnerIds = [...config.partnerIds, id].sort((a, b) => a - b);
+      partnerLabels[id] = label || String(id);
+      renderPartnerChips();
+      reinitWidget();
+    }
+  }
+
+  function initPartnerIds() {
+    const searchInput = document.getElementById('partner-search');
+    const dropdown = document.getElementById('partner-dropdown');
+    const addIdInput = document.getElementById('partner-add-id');
+    const addIdBtn = document.querySelector('.btn-add-id');
+    const errorEl = document.getElementById('partnerIds-error');
+
+    function showPartnerError(msg) {
+      if (errorEl) errorEl.textContent = msg;
+    }
+
+    function hideDropdown() {
+      if (dropdown) dropdown.classList.remove('is-open');
+    }
+
+    if (searchInput && dropdown) {
+      searchInput.addEventListener('input', () => {
+        const q = searchInput.value.trim();
+        if (!q) {
+          hideDropdown();
+          return;
+        }
+        debounceTimers.partnerSearch && clearTimeout(debounceTimers.partnerSearch);
+        debounceTimers.partnerSearch = setTimeout(() => {
+          debounceTimers.partnerSearch = null;
+          window.PartnersApi.searchPartners(q).then((results) => {
+            dropdown.innerHTML = results.length
+              ? results.map((p) => `<div class="partner-dropdown-item" data-id="${p.partnerId}" data-title="${escapeAttr(p.title)}">${escapeHtml(p.title)} (${p.partnerId})</div>`).join('')
+              : '<div class="partner-dropdown-empty">No partners found</div>';
+            dropdown.querySelectorAll('.partner-dropdown-item').forEach((item) => {
+              item.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                addPartnerId(item.dataset.id, item.dataset.title);
+                searchInput.value = '';
+                hideDropdown();
+              });
+            });
+            dropdown.classList.add('is-open');
+          });
+        }, DEBOUNCE_MS.partnerSearch);
+      });
+    }
+
+    searchInput.addEventListener('blur', () => {
+      setTimeout(hideDropdown, 200);
+    });
+    document.addEventListener('click', (e) => {
+      if (dropdown.classList.contains('is-open') && !dropdown.contains(e.target) && e.target !== searchInput) {
+        hideDropdown();
+      }
+    });
+
+    if (addIdInput && addIdBtn) {
+      addIdBtn.addEventListener('click', () => {
+        const val = addIdInput.value.trim();
+        if (!val) return;
+        if (!isValidPartnerId(val)) {
+          showPartnerError('Enter a valid integer ID');
+          addIdInput.classList.add('is-invalid');
+          return;
+        }
+        showPartnerError('');
+        addIdInput.classList.remove('is-invalid');
+        addPartnerId(val, val);
+        addIdInput.value = '';
+      });
+      addIdInput.addEventListener('input', () => {
+        showPartnerError('');
+        addIdInput.classList.remove('is-invalid');
+      });
+      addIdInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          addIdBtn.click();
+        }
+      });
+    }
+
+    renderPartnerChips();
   }
 
   function initColorFields() {
