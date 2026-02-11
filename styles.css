@@ -137,6 +137,57 @@ body {
   min-height: 400px;
 }
 
+.widget-container.is-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #A0A4B1;
+  font-size: 15px;
+}
+
+/* ===== Preview Error State ===== */
+.preview-error {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 400px;
+  padding: 24px;
+  text-align: center;
+}
+
+.widget-wrapper.has-error .widget-container {
+  display: none;
+}
+
+.widget-wrapper.has-error .preview-error {
+  display: flex;
+}
+
+.preview-error-message {
+  margin: 0;
+  font-size: 15px;
+  color: #6b7280;
+}
+
+.btn-retry {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  color: #fff;
+  background: #2C3534;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-retry:hover {
+  background: #3d4847;
+}
+
 .placeholder-text {
   margin: 0;
   padding: 48px 24px;

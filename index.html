@@ -21,9 +21,11 @@
         </div>
       </div>
       <div class="preview-wrapper desktop">
-        <div class="widget-wrapper" id="preview-container">
-          <div class="widget-container" id="widget-placeholder">
-            <p class="placeholder-text">Widget preview will appear here</p>
+        <div class="widget-wrapper">
+          <div id="widget-mount" class="widget-container"></div>
+          <div class="preview-error" id="preview-error" aria-live="polite">
+            <p class="preview-error-message">Failed to load widget script</p>
+            <button type="button" class="btn-retry">Retry</button>
           </div>
         </div>
       </div>
@@ -39,6 +41,8 @@
     </aside>
   </main>
 
+  <script src="lib/config.js"></script>
+  <script src="lib/widget-loader.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
