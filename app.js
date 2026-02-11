@@ -422,6 +422,8 @@
       if (window.Prism) Prism.highlightElement(codeEl);
       modal.classList.add('is-open');
       modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      document.querySelector('.modal-close')?.focus();
     }
   }
 
@@ -430,6 +432,8 @@
     if (modal) {
       modal.classList.remove('is-open');
       modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      document.getElementById('btn-get-embed')?.focus();
     }
   }
 

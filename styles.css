@@ -508,6 +508,26 @@ body {
   flex-direction: column;
 }
 
+@media (max-width: 600px) {
+  .modal-overlay {
+    padding: 16px;
+  }
+
+  .modal {
+    max-height: 85vh;
+  }
+
+  .modal-header,
+  .modal-body {
+    padding: 16px 20px;
+  }
+
+  .modal-code {
+    padding: 12px;
+    font-size: 12px;
+  }
+}
+
 .modal-header {
   display: flex;
   align-items: center;
