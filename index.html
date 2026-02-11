@@ -20,6 +20,10 @@
           <button type="button" class="toggle-btn active" data-view="desktop">Desktop</button>
           <button type="button" class="toggle-btn" data-view="mobile">Mobile</button>
         </div>
+        <div class="preview-device-select" id="device-select-wrap">
+          <label for="device-select" class="device-select-label">Screen size</label>
+          <select id="device-select" class="form-select device-select"></select>
+        </div>
       </div>
       <div class="preview-wrapper desktop">
         <div class="widget-wrapper">
@@ -197,6 +201,7 @@
   </div>
 
   <script src="lib/config.js"></script>
+  <script src="lib/devices.js"></script>
   <script src="lib/validation.js"></script>
   <script src="lib/partners-api.js"></script>
   <script src="lib/code-generator.js"></script>

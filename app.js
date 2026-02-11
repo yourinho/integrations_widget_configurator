@@ -29,6 +29,27 @@
   function initPreviewToggle() {
     const wrapper = document.querySelector('.preview-wrapper');
     const buttons = document.querySelectorAll('.toggle-btn');
+    const deviceSelectWrap = document.getElementById('device-select-wrap');
+    const deviceSelect = document.getElementById('device-select');
+
+    if (deviceSelect && window.Devices?.list?.length) {
+      deviceSelect.innerHTML = window.Devices.list
+        .map((d, i) => `<option value="${d.width}" ${i === 2 ? 'selected' : ''}>${d.label} (${d.width}px)</option>`)
+        .join('');
+
+      deviceSelect.addEventListener('change', () => {
+        const w = deviceSelect.value;
+        if (wrapper) wrapper.style.setProperty('--mobile-preview-width', w ? w + 'px' : '375px');
+      });
+    }
+
+    if (deviceSelectWrap) {
+      deviceSelectWrap.classList.toggle('is-visible', currentView === PREVIEW_VIEW.MOBILE);
+    }
+
+    if (wrapper && deviceSelect?.value) {
+      wrapper.style.setProperty('--mobile-preview-width', deviceSelect.value + 'px');
+    }
 
     if (!wrapper || !buttons.length) return;
 
@@ -39,16 +60,21 @@
 
         currentView = view;
 
-        // Update wrapper class
         wrapper.classList.remove('desktop', 'mobile');
         wrapper.classList.add(view);
 
-        // Update button states
+        if (deviceSelectWrap) {
+          deviceSelectWrap.classList.toggle('is-visible', view === PREVIEW_VIEW.MOBILE);
+        }
+
+        if (view === PREVIEW_VIEW.MOBILE && deviceSelect) {
+          wrapper.style.setProperty('--mobile-preview-width', deviceSelect.value + 'px');
+        }
+
         buttons.forEach((b) => b.classList.toggle('active', b.dataset.view === view));
       });
     });
 
-    // Set initial state
     wrapper.classList.add(PREVIEW_VIEW.DESKTOP);
   }
 

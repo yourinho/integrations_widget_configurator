@@ -332,7 +332,34 @@ body {
 
 /* ===== Preview Toolbar ===== */
 .preview-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
   margin-bottom: 16px;
+}
+
+.preview-device-select {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+
+.preview-device-select.is-visible {
+  display: flex;
+}
+
+.device-select-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.device-select {
+  min-width: 200px;
+  padding: 8px 12px;
+  font-size: 13px;
 }
 
 .preview-toggle {
@@ -381,7 +408,7 @@ body {
 
 .preview-wrapper.mobile .widget-wrapper {
   width: 100%;
-  max-width: 375px;
+  max-width: var(--mobile-preview-width, 375px);
 }
 
 /* ===== Widget Container (demo page style) ===== */
@@ -642,6 +669,6 @@ body {
   }
 
   .preview-wrapper.mobile .widget-wrapper {
-    max-width: min(375px, 100%);
+    max-width: min(var(--mobile-preview-width, 375px), 100%);
   }
 }
