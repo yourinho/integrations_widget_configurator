@@ -66,72 +66,94 @@
             <span class="form-hint form-error" id="url-error" aria-live="polite"></span>
           </div>
 
-          <div class="form-group">
-            <span class="form-label">Regions</span>
-            <div class="form-checkboxes">
-              <label class="form-checkbox">
-                <input type="checkbox" name="region" value="2"> BR (Brazil)
-              </label>
-              <label class="form-checkbox">
-                <input type="checkbox" name="region" value="3"> Global
-              </label>
+          <div class="integration-filter-section">
+            <h3 class="integration-filter-title">Integration filter</h3>
+            <div class="integration-filter-tabs" role="tablist">
+              <button type="button" class="integration-tab active" role="tab" aria-selected="true" data-tab="region">Filter by region</button>
+              <span class="integration-tab-divider" aria-hidden="true"></span>
+              <button type="button" class="integration-tab" role="tab" aria-selected="false" data-tab="manual">Manual selection</button>
             </div>
-            <span class="form-hint">Leave empty to show all</span>
-          </div>
 
-          <div class="form-group">
-            <label for="partner-search">Partner IDs (filter)</label>
-            <div class="partner-search-wrap">
-              <input type="text" id="partner-search" class="form-input" placeholder="Search by name..."
-                autocomplete="off">
-              <div class="partner-dropdown" id="partner-dropdown" role="listbox"></div>
+            <div class="integration-filter-panel integration-filter-panel-region" role="tabpanel" id="panel-region">
+              <div class="integration-filter-checkboxes">
+                <label class="form-checkbox">
+                  <input type="checkbox" name="region" value="all" id="region-all" checked> All regions
+                </label>
+                <label class="form-checkbox">
+                  <input type="checkbox" name="region" value="2" id="region-brazil"> Brazil
+                </label>
+                <label class="form-checkbox">
+                  <input type="checkbox" name="region" value="3" id="region-global"> Global
+                </label>
+              </div>
             </div>
-            <div class="partner-actions">
-              <button type="button" class="btn-bulk-add" id="btn-bulk-add">Bulk add</button>
+
+            <div class="integration-filter-panel integration-filter-panel-manual" role="tabpanel" id="panel-manual" hidden>
+              <div class="form-group">
+                <label for="partner-search">Select app to add</label>
+                <div class="partner-search-wrap">
+                  <input type="text" id="partner-search" class="form-input" placeholder="Search by name..."
+                    autocomplete="off">
+                  <div class="partner-dropdown" id="partner-dropdown" role="listbox"></div>
+                </div>
+              </div>
+              <div class="partner-chips" id="partner-chips"></div>
+              <div class="partner-actions">
+                <button type="button" class="btn-bulk-add" id="btn-bulk-add">
+                  <svg class="btn-bulk-add-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M5 12h14"/>
+                  </svg>
+                  Bulk add
+                </button>
+              </div>
+              <span class="form-hint form-error" id="partnerIds-error" aria-live="polite"></span>
             </div>
-            <div class="partner-chips" id="partner-chips"></div>
-            <span class="form-hint form-error" id="partnerIds-error" aria-live="polite"></span>
-            <span class="form-hint">Leave empty to show all. Search by name or bulk add by ID.</span>
           </div>
 
-          <div class="form-group">
-            <label for="font">Font</label>
-            <select id="font" class="form-select custom-select-target"></select>
+          <div class="font-section">
+            <h3 class="font-section-title">Font</h3>
+            <div class="form-group">
+              <label for="font">Select font</label>
+              <select id="font" class="form-select custom-select-target"></select>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label for="card-size">Card size</label>
-            <select id="card-size" class="form-select custom-select-target">
-              <option value="l">Large (180×180px)</option>
-              <option value="m">Medium (150×150px)</option>
-              <option value="s">Small (120×120px)</option>
-            </select>
-          </div>
+          <div class="layout-section">
+            <h3 class="layout-section-title">Layout</h3>
+            <div class="form-group">
+              <label for="card-size">Card size</label>
+              <select id="card-size" class="form-select custom-select-target">
+                <option value="l">Large (180×180px)</option>
+                <option value="m">Medium (150×150px)</option>
+                <option value="s">Small (120×120px)</option>
+              </select>
+            </div>
 
-          <div class="form-group">
-            <label for="detail-card-size">Detail card size</label>
-            <select id="detail-card-size" class="form-select custom-select-target">
-              <option value="l">Large (330×136px)</option>
-              <option value="m">Medium (270×112px)</option>
-              <option value="s">Small (210×88px)</option>
-            </select>
-          </div>
+            <div class="form-group">
+              <label for="detail-card-size">Detail card size</label>
+              <select id="detail-card-size" class="form-select custom-select-target">
+                <option value="l">Large (330×136px)</option>
+                <option value="m">Medium (270×112px)</option>
+                <option value="s">Small (210×88px)</option>
+              </select>
+            </div>
 
-          <div class="form-group">
-            <label for="detail-layout">Detail layout</label>
-            <select id="detail-layout" class="form-select custom-select-target">
-              <option value="stacked">Stacked</option>
-              <option value="columns">Columns</option>
-            </select>
-          </div>
+            <div class="form-group">
+              <label for="detail-layout">Detail layout</label>
+              <select id="detail-layout" class="form-select custom-select-target">
+                <option value="stacked">Stacked</option>
+                <option value="columns">Columns</option>
+              </select>
+            </div>
 
-          <div class="form-group">
-            <label for="align">Align</label>
-            <select id="align" class="form-select custom-select-target">
-              <option value="center">Center</option>
-              <option value="left">Left</option>
-              <option value="right">Right</option>
-            </select>
+            <div class="form-group">
+              <label for="align">Align</label>
+              <select id="align" class="form-select custom-select-target">
+                <option value="center">Center</option>
+                <option value="left">Left</option>
+                <option value="right">Right</option>
+              </select>
+            </div>
           </div>
 
           <div class="colors-section">

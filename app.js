@@ -141,6 +141,11 @@
     }, DEBOUNCE_MS[key] || 200);
   }
 
+  function getIntegrationFilterMode() {
+    const activeTab = document.querySelector('.integration-tab.active');
+    return activeTab?.dataset.tab || 'region';
+  }
+
   function syncConfigFromForm() {
     const urlInput = document.getElementById('widget-url');
     const fontSelect = document.getElementById('font');
@@ -148,7 +153,7 @@
     const detailCardSizeSelect = document.getElementById('detail-card-size');
     const detailLayoutSelect = document.getElementById('detail-layout');
     const alignSelect = document.getElementById('align');
-    const regionCheckboxes = document.querySelectorAll('input[name="region"]:checked');
+    const mode = getIntegrationFilterMode();
 
     if (urlInput) config.widgetUrl = urlInput.value.trim();
     if (fontSelect) config.font = fontSelect.value.trim();
@@ -156,7 +161,19 @@
     if (detailCardSizeSelect) config.detailCardSize = detailCardSizeSelect.value;
     if (detailLayoutSelect) config.detailLayout = detailLayoutSelect.value;
     if (alignSelect) config.align = alignSelect.value;
-    config.regions = Array.from(regionCheckboxes).map((c) => parseInt(c.value, 10));
+
+    if (mode === 'region') {
+      const regionAll = document.getElementById('region-all');
+      if (regionAll?.checked) {
+        config.regions = [];
+      } else {
+        const regionCheckboxes = document.querySelectorAll('input[name="region"][value!="all"]:checked');
+        config.regions = Array.from(regionCheckboxes).map((c) => parseInt(c.value, 10));
+      }
+      config.partnerIds = [];
+    } else {
+      config.regions = [];
+    }
 
     document.querySelectorAll('.color-hex').forEach((input) => {
       const key = input.dataset.key;
@@ -295,12 +312,76 @@
 
     if (detailLayoutSelect) detailLayoutSelect.addEventListener('change', reinitWidget);
 
-    regionCheckboxes.forEach((cb) => {
-      cb.addEventListener('change', reinitWidget);
-    });
-
+    initIntegrationFilter();
     initColorFields();
     initPartnerIds();
+  }
+
+  function initIntegrationFilter() {
+    const tabRegion = document.querySelector('.integration-tab[data-tab="region"]');
+    const tabManual = document.querySelector('.integration-tab[data-tab="manual"]');
+    const panelRegion = document.getElementById('panel-region');
+    const panelManual = document.getElementById('panel-manual');
+    const regionAll = document.getElementById('region-all');
+    const regionBrazil = document.getElementById('region-brazil');
+    const regionGlobal = document.getElementById('region-global');
+
+    function switchToRegion() {
+      tabRegion?.classList.add('active');
+      tabRegion?.setAttribute('aria-selected', 'true');
+      tabManual?.classList.remove('active');
+      tabManual?.setAttribute('aria-selected', 'false');
+      panelRegion?.removeAttribute('hidden');
+      panelManual?.setAttribute('hidden', '');
+      config.partnerIds = [];
+      Object.keys(partnerLabels).forEach((k) => delete partnerLabels[k]);
+      renderPartnerChips();
+      syncConfigFromForm();
+      reinitWidget();
+    }
+
+    function switchToManual() {
+      tabManual?.classList.add('active');
+      tabManual?.setAttribute('aria-selected', 'true');
+      tabRegion?.classList.remove('active');
+      tabRegion?.setAttribute('aria-selected', 'false');
+      panelManual?.removeAttribute('hidden');
+      panelRegion?.setAttribute('hidden', '');
+      if (regionAll) regionAll.checked = true;
+      if (regionBrazil) regionBrazil.checked = false;
+      if (regionGlobal) regionGlobal.checked = false;
+      config.regions = [];
+      syncConfigFromForm();
+      reinitWidget();
+    }
+
+    tabRegion?.addEventListener('click', () => {
+      if (!tabRegion.classList.contains('active')) switchToRegion();
+    });
+    tabManual?.addEventListener('click', () => {
+      if (!tabManual.classList.contains('active')) switchToManual();
+    });
+
+    if (regionAll) {
+      regionAll.addEventListener('change', () => {
+        if (regionAll.checked) {
+          if (regionBrazil) regionBrazil.checked = false;
+          if (regionGlobal) regionGlobal.checked = false;
+        }
+        syncConfigFromForm();
+        reinitWidget();
+      });
+    }
+
+    [regionBrazil, regionGlobal].forEach((cb) => {
+      if (cb) {
+        cb.addEventListener('change', () => {
+          if (cb.checked && regionAll) regionAll.checked = false;
+          syncConfigFromForm();
+          reinitWidget();
+        });
+      }
+    });
   }
 
   function isValidPartnerId(value) {
