@@ -1,0 +1,196 @@
+/* ===== Reset & Base ===== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f8f9fa;
+  color: #2C3534;
+  min-height: 100vh;
+}
+
+/* ===== Header ===== */
+.configurator-header {
+  padding: 20px 24px;
+  background: #fff;
+  border-bottom: 1px solid #E6E8EC;
+}
+
+.configurator-header h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/* ===== Main Layout ===== */
+.configurator-main {
+  display: flex;
+  flex: 1;
+  min-height: calc(100vh - 65px);
+}
+
+/* Preview: left, flex-grow */
+.preview-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  min-width: 0;
+}
+
+/* Sidebar: right, fixed width */
+.sidebar {
+  width: 340px;
+  min-width: 340px;
+  background: #fff;
+  border-left: 1px solid #E6E8EC;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.sidebar-placeholder {
+  margin: 0;
+  color: #A0A4B1;
+  font-size: 14px;
+}
+
+.sidebar-footer {
+  padding: 20px 24px;
+  border-top: 1px solid #E6E8EC;
+  background: #fff;
+}
+
+/* ===== Preview Toolbar ===== */
+.preview-toolbar {
+  margin-bottom: 16px;
+}
+
+.preview-toggle {
+  display: inline-flex;
+  background: #e5e7eb;
+  border-radius: 8px;
+  padding: 2px;
+  gap: 0;
+}
+
+.toggle-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.toggle-btn:hover {
+  color: #2C3534;
+}
+
+.toggle-btn.active {
+  background: #fff;
+  color: #2C3534;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+/* ===== Preview Wrapper (Desktop vs Mobile width) ===== */
+.preview-wrapper {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  min-height: 400px;
+}
+
+.preview-wrapper.desktop .widget-wrapper {
+  width: 100%;
+  max-width: 1200px;
+}
+
+.preview-wrapper.mobile .widget-wrapper {
+  width: 100%;
+  max-width: 375px;
+}
+
+/* ===== Widget Container (demo page style) ===== */
+.widget-wrapper {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  overflow-x: hidden;
+  transition: max-width 0.2s ease;
+}
+
+.widget-container {
+  width: 100%;
+  min-height: 400px;
+}
+
+.placeholder-text {
+  margin: 0;
+  padding: 48px 24px;
+  text-align: center;
+  color: #A0A4B1;
+  font-size: 15px;
+}
+
+/* ===== Button ===== */
+.btn-primary {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  color: #fff;
+  background: #2C3534;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #3d4847;
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===== Responsive: Stacked layout (< 1024px) ===== */
+@media (max-width: 1023px) {
+  .configurator-main {
+    flex-direction: column;
+  }
+
+  .preview-section {
+    padding: 20px 16px;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-width: 100%;
+    border-left: none;
+    border-top: 1px solid #E6E8EC;
+  }
+
+  .preview-wrapper.desktop .widget-wrapper {
+    max-width: 100%;
+  }
+
+  .preview-wrapper.mobile .widget-wrapper {
+    max-width: min(375px, 100%);
+  }
+}

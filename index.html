@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Albato Widget Configurator</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="configurator-header">
+    <h1>Albato Widget Configurator</h1>
+  </header>
+
+  <main class="configurator-main">
+    <section class="preview-section">
+      <div class="preview-toolbar">
+        <div class="preview-toggle" role="tablist">
+          <button type="button" class="toggle-btn active" data-view="desktop">Desktop</button>
+          <button type="button" class="toggle-btn" data-view="mobile">Mobile</button>
+        </div>
+      </div>
+      <div class="preview-wrapper desktop">
+        <div class="widget-wrapper" id="preview-container">
+          <div class="widget-container" id="widget-placeholder">
+            <p class="placeholder-text">Widget preview will appear here</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="sidebar">
+      <div class="sidebar-content">
+        <p class="sidebar-placeholder">Settings panel will be here</p>
+      </div>
+      <div class="sidebar-footer">
+        <button type="button" class="btn-primary" disabled>Get Embed Code</button>
+      </div>
+    </aside>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
