@@ -86,14 +86,12 @@
                 autocomplete="off">
               <div class="partner-dropdown" id="partner-dropdown" role="listbox"></div>
             </div>
-            <div class="partner-add-manual">
-              <input type="text" id="partner-add-id" class="form-input" placeholder="Add ID (e.g. 10055)"
-                maxlength="8">
-              <button type="button" class="btn-add-id">Add</button>
+            <div class="partner-actions">
+              <button type="button" class="btn-bulk-add" id="btn-bulk-add">Bulk add</button>
             </div>
             <div class="partner-chips" id="partner-chips"></div>
             <span class="form-hint form-error" id="partnerIds-error" aria-live="polite"></span>
-            <span class="form-hint">Leave empty to show all. Search and select or add ID manually.</span>
+            <span class="form-hint">Leave empty to show all. Search by name or bulk add by ID.</span>
           </div>
 
           <div class="form-group">
@@ -215,6 +213,48 @@
       </div>
     </aside>
   </main>
+
+  <div class="modal-overlay" id="bulk-add-modal" aria-hidden="true">
+    <div class="bulk-add-modal" role="dialog" aria-labelledby="bulk-add-title">
+      <div class="modal-header">
+        <div class="header-title">
+          <h2 id="bulk-add-title">Bulk add partners</h2>
+          <p>Add multiple partner IDs at once</p>
+        </div>
+        <button type="button" class="close-btn bulk-add-close" aria-label="Close">
+          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-content">
+        <div class="input-section">
+          <label for="bulk-add-ids" class="input-label">Partner IDs</label>
+          <p class="input-desc">Enter partner IDs separated by commas (e.g. 10055, 10056, 10057)</p>
+          <textarea id="bulk-add-ids" class="textarea" placeholder="10055, 10056, 10057" rows="4"></textarea>
+        </div>
+        <div class="info-box">
+          <svg class="info-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 16v-4M12 8h.01"/>
+          </svg>
+          <span class="info-text">Invalid IDs will be skipped. Existing partners won't be duplicated.</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <span class="count-text" id="bulk-add-count">0 partners to add</span>
+        <div class="footer-buttons">
+          <button type="button" class="btn-cancel bulk-add-cancel">Cancel</button>
+          <button type="button" class="btn-add bulk-add-submit">
+            <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 5v14M5 12h14"/>
+            </svg>
+            Add
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="modal-overlay" id="embed-modal" aria-hidden="true">
     <div class="modal" role="dialog" aria-labelledby="embed-modal-title">

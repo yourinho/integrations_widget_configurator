@@ -342,31 +342,26 @@ body {
   color: #A0A4B1;
 }
 
-.partner-add-manual {
-  display: flex;
-  gap: 8px;
+.partner-actions {
   margin-top: 8px;
 }
 
-.partner-add-manual .form-input {
-  flex: 1;
-}
-
-.btn-add-id {
-  padding: 10px 16px;
-  font-size: 14px;
+.btn-bulk-add {
+  padding: 8px 14px;
+  font-size: 13px;
   font-weight: 600;
-  font-family: inherit;
-  color: #fff;
-  background: #2C3534;
-  border: none;
+  font-family: 'Inter', sans-serif;
+  color: #FF592C;
+  background: transparent;
+  border: 1px solid #FF592C;
   border-radius: 8px;
   cursor: pointer;
-  flex-shrink: 0;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.btn-add-id:hover {
-  background: #3d4847;
+.btn-bulk-add:hover {
+  background: rgba(255, 89, 44, 0.08);
+  color: #e5502a;
 }
 
 .partner-chips {
@@ -719,6 +714,218 @@ body {
 .btn-primary:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* ===== Bulk Add Partners Modal ===== */
+#bulk-add-modal .bulk-add-modal {
+  display: flex;
+  flex-direction: column;
+  width: 480px;
+  max-width: 100%;
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.bulk-add-modal .modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e6e8ec;
+}
+
+.bulk-add-modal .header-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.bulk-add-modal .header-title h2 {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.bulk-add-modal .header-title p {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #777e90;
+}
+
+.bulk-add-modal .close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.bulk-add-modal .close-btn:hover {
+  background: #f4f5f6;
+}
+
+.bulk-add-modal .close-btn .icon {
+  width: 20px;
+  height: 20px;
+  color: #777e90;
+}
+
+.bulk-add-modal .modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+}
+
+.bulk-add-modal .input-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bulk-add-modal .input-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #414653;
+}
+
+.bulk-add-modal .input-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #777e90;
+  line-height: 1.4;
+}
+
+.bulk-add-modal .textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  background: #FFFFFF;
+  border: 1px solid #e6e8ec;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #414653;
+  line-height: 1.5;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.15s ease;
+  box-sizing: border-box;
+}
+
+.bulk-add-modal .textarea:focus {
+  border-color: #ff592c;
+}
+
+.bulk-add-modal .textarea::placeholder {
+  color: #777e90;
+}
+
+.bulk-add-modal .info-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px;
+  background: #f0f9ff;
+  border-radius: 8px;
+}
+
+.bulk-add-modal .info-box .info-icon {
+  width: 16px;
+  height: 16px;
+  color: #0284c7;
+  flex-shrink: 0;
+}
+
+.bulk-add-modal .info-box .info-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #0369a1;
+  line-height: 1.4;
+}
+
+.bulk-add-modal .modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-top: 1px solid #e6e8ec;
+}
+
+.bulk-add-modal .count-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #10b981;
+}
+
+.bulk-add-modal .footer-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bulk-add-modal .btn-cancel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid #e6e8ec;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #414653;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.bulk-add-modal .btn-cancel:hover {
+  background: #f4f5f6;
+  border-color: #d1d5db;
+}
+
+.bulk-add-modal .btn-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 40px;
+  padding: 10px 20px;
+  background: #ff592c;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.bulk-add-modal .btn-add:hover {
+  background: #e5502a;
+}
+
+.bulk-add-modal .btn-add .icon {
+  width: 16px;
+  height: 16px;
 }
 
 /* ===== Embed Modal ===== */

@@ -342,11 +342,26 @@
     }
   }
 
+  function addPartnerIdsBatch(entries) {
+    let changed = false;
+    entries.forEach(({ id, label }) => {
+      id = parseInt(id, 10);
+      if (!config.partnerIds.includes(id)) {
+        config.partnerIds = [...config.partnerIds, id];
+        partnerLabels[id] = label || String(id);
+        changed = true;
+      }
+    });
+    if (changed) {
+      config.partnerIds.sort((a, b) => a - b);
+      renderPartnerChips();
+      reinitWidget();
+    }
+  }
+
   function initPartnerIds() {
     const searchInput = document.getElementById('partner-search');
     const dropdown = document.getElementById('partner-dropdown');
-    const addIdInput = document.getElementById('partner-add-id');
-    const addIdBtn = document.querySelector('.btn-add-id');
     const errorEl = document.getElementById('partnerIds-error');
 
     function showPartnerError(msg) {
@@ -385,42 +400,101 @@
       });
     }
 
-    searchInput.addEventListener('blur', () => {
-      setTimeout(hideDropdown, 200);
-    });
+    if (searchInput) searchInput.addEventListener('blur', () => setTimeout(hideDropdown, 200));
     document.addEventListener('click', (e) => {
-      if (dropdown.classList.contains('is-open') && !dropdown.contains(e.target) && e.target !== searchInput) {
+      if (dropdown && dropdown.classList.contains('is-open') && !dropdown.contains(e.target) && e.target !== searchInput) {
         hideDropdown();
       }
     });
 
-    if (addIdInput && addIdBtn) {
-      addIdBtn.addEventListener('click', () => {
-        const val = addIdInput.value.trim();
-        if (!val) return;
-        if (!isValidPartnerId(val)) {
-          showPartnerError('Enter a valid integer ID');
-          addIdInput.classList.add('is-invalid');
-          return;
+    initBulkAddModal();
+    renderPartnerChips();
+  }
+
+  function parseBulkIds(text) {
+    return text
+      .split(/[\s,;]+/)
+      .map((s) => s.trim())
+      .filter(Boolean);
+  }
+
+  function initBulkAddModal() {
+    const modal = document.getElementById('bulk-add-modal');
+    const btnOpen = document.getElementById('btn-bulk-add');
+    const textarea = document.getElementById('bulk-add-ids');
+    const countEl = document.getElementById('bulk-add-count');
+    const btnClose = document.querySelector('.bulk-add-close');
+    const btnCancel = document.querySelector('.bulk-add-cancel');
+    const btnSubmit = document.querySelector('.bulk-add-submit');
+
+    function openBulkAddModal() {
+      if (modal) {
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        if (textarea) {
+          textarea.value = '';
+          textarea.focus();
         }
-        showPartnerError('');
-        addIdInput.classList.remove('is-invalid');
-        addPartnerId(val, val);
-        addIdInput.value = '';
-      });
-      addIdInput.addEventListener('input', () => {
-        showPartnerError('');
-        addIdInput.classList.remove('is-invalid');
-      });
-      addIdInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          addIdBtn.click();
-        }
+        updateBulkAddCount();
+      }
+    }
+
+    function closeBulkAddModal() {
+      if (modal) {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        btnOpen?.focus();
+      }
+    }
+
+    function updateBulkAddCount() {
+      if (!countEl || !textarea) return;
+      const ids = parseBulkIds(textarea.value);
+      const valid = ids.filter((id) => isValidPartnerId(id));
+      const toAdd = valid.filter((id) => !config.partnerIds.includes(parseInt(id, 10)));
+      countEl.textContent = toAdd.length === 0 ? (valid.length > 0 ? 'All already added' : '0 partners to add') : toAdd.length + ' partner' + (toAdd.length === 1 ? '' : 's') + ' to add';
+    }
+
+    if (btnOpen) btnOpen.addEventListener('click', openBulkAddModal);
+    if (btnClose) btnClose.addEventListener('click', closeBulkAddModal);
+    if (btnCancel) btnCancel.addEventListener('click', closeBulkAddModal);
+
+    if (textarea) textarea.addEventListener('input', updateBulkAddCount);
+
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeBulkAddModal();
       });
     }
 
-    renderPartnerChips();
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal?.classList.contains('is-open')) closeBulkAddModal();
+    });
+
+    if (btnSubmit && textarea) {
+      btnSubmit.addEventListener('click', async () => {
+        const ids = parseBulkIds(textarea.value);
+        const valid = ids.filter((id) => isValidPartnerId(id));
+        const toAdd = valid
+          .map((id) => parseInt(id, 10))
+          .filter((n) => !config.partnerIds.includes(n));
+        if (toAdd.length === 0) {
+          closeBulkAddModal();
+          return;
+        }
+        const fetchLabels = toAdd.map(async (n) => {
+          const partner = window.PartnersApi?.getPartnerById
+            ? await window.PartnersApi.getPartnerById(n)
+            : null;
+          return { id: n, label: partner?.title || String(n) };
+        });
+        const results = await Promise.all(fetchLabels);
+        addPartnerIdsBatch(results);
+        closeBulkAddModal();
+      });
+    }
   }
 
   function updateColorSwatch(key, value) {
