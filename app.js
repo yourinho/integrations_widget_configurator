@@ -287,6 +287,7 @@
         applyCosmeticOptions();
       });
     }
+    window.CustomSelect?.init();
 
     [cardSizeSelect, detailCardSizeSelect, alignSelect].forEach((el) => {
       if (el) el.addEventListener('change', applyCosmeticOptions);
