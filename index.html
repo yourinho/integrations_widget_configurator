@@ -33,7 +33,69 @@
 
     <aside class="sidebar">
       <div class="sidebar-content">
-        <p class="sidebar-placeholder">Settings panel will be here</p>
+        <form class="settings-form" id="settings-form">
+          <div class="form-group">
+            <label for="widget-url">Widget script URL</label>
+            <input type="text" id="widget-url" class="form-input" maxlength="512"
+              placeholder="https://..."
+              value="https://yourinho.github.io/integrations_widget/albato-widget.iife.js">
+            <span class="form-hint form-error" id="url-error" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group">
+            <span class="form-label">Regions</span>
+            <div class="form-checkboxes">
+              <label class="form-checkbox">
+                <input type="checkbox" name="region" value="2"> BR (Brazil)
+              </label>
+              <label class="form-checkbox">
+                <input type="checkbox" name="region" value="3"> Global
+              </label>
+            </div>
+            <span class="form-hint">Leave empty to show all</span>
+          </div>
+
+          <div class="form-group">
+            <label for="font">Font</label>
+            <input type="text" id="font" class="form-input" maxlength="128"
+              placeholder="'Open Sans', sans-serif">
+          </div>
+
+          <div class="form-group">
+            <label for="card-size">Card size</label>
+            <select id="card-size" class="form-select">
+              <option value="l">Large (180×180px)</option>
+              <option value="m">Medium (150×150px)</option>
+              <option value="s">Small (120×120px)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="detail-card-size">Detail card size</label>
+            <select id="detail-card-size" class="form-select">
+              <option value="l">Large (330×136px)</option>
+              <option value="m">Medium (270×112px)</option>
+              <option value="s">Small (210×88px)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="detail-layout">Detail layout</label>
+            <select id="detail-layout" class="form-select">
+              <option value="stacked">Stacked</option>
+              <option value="columns">Columns</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="align">Align</label>
+            <select id="align" class="form-select">
+              <option value="center">Center</option>
+              <option value="left">Left</option>
+              <option value="right">Right</option>
+            </select>
+          </div>
+        </form>
       </div>
       <div class="sidebar-footer">
         <button type="button" class="btn-primary" disabled>Get Embed Code</button>
@@ -42,6 +104,7 @@
   </main>
 
   <script src="lib/config.js"></script>
+  <script src="lib/validation.js"></script>
   <script src="lib/widget-loader.js"></script>
   <script src="app.js"></script>
 </body>
