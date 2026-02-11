@@ -183,6 +183,7 @@
       const hexInput = document.querySelector('.color-hex[data-key="' + key + '"]');
       if (picker) picker.value = defaults[key];
       if (hexInput) hexInput.value = defaults[key];
+      updateColorSwatch(key, defaults[key]);
     });
     applyCosmeticOptions();
   }
@@ -193,8 +194,8 @@
   }
 
   function setUrlInvalid(invalid) {
-    const input = document.getElementById('widget-url');
-    if (input) input.classList.toggle('is-invalid', invalid);
+    const wrap = document.getElementById('url-input-wrap');
+    if (wrap) wrap.classList.toggle('is-invalid', invalid);
   }
 
   /**
@@ -254,6 +255,25 @@
           setUrlInvalid(true);
           showUrlError('Invalid URL. Use https:// and a valid format.');
         }
+      });
+    }
+
+    const urlCopyBtn = document.getElementById('url-copy');
+    const urlEditBtn = document.getElementById('url-edit');
+    if (urlCopyBtn) {
+      urlCopyBtn.addEventListener('click', () => {
+        const url = urlInput?.value?.trim() || '';
+        if (url && navigator.clipboard?.writeText) {
+          navigator.clipboard.writeText(url).then(() => {
+            urlCopyBtn.classList.add('copied');
+            setTimeout(() => urlCopyBtn.classList.remove('copied'), 2000);
+          });
+        }
+      });
+    }
+    if (urlEditBtn && urlInput) {
+      urlEditBtn.addEventListener('click', () => {
+        urlInput.focus();
       });
     }
 
@@ -403,26 +423,35 @@
     renderPartnerChips();
   }
 
+  function updateColorSwatch(key, value) {
+    const swatch = document.getElementById('swatch-' + key);
+    if (swatch) swatch.style.background = value || '#ffffff';
+  }
+
   function initColorFields() {
     const resetBtn = document.querySelector('.btn-reset-colors');
     if (resetBtn) resetBtn.addEventListener('click', resetColorsToDefaults);
 
-    document.querySelectorAll('.color-field').forEach((field) => {
-      const key = field.dataset.key;
+    document.querySelectorAll('.color-row').forEach((row) => {
+      const key = row.dataset.key;
       if (!key) return;
-      const picker = field.querySelector('input[type="color"]');
-      const hexInput = field.querySelector('.color-hex');
+      const picker = row.querySelector('input[type="color"]');
+      const hexInput = row.querySelector('.color-hex');
       if (!picker || !hexInput) return;
 
       picker.addEventListener('input', () => {
         hexInput.value = picker.value;
+        updateColorSwatch(key, picker.value);
         syncConfigFromForm();
         applyCosmeticOptions();
       });
 
       hexInput.addEventListener('input', () => {
         const hex = hexToSixDigit(hexInput.value.trim());
-        if (hex) picker.value = hex;
+        if (hex) {
+          picker.value = hex;
+          updateColorSwatch(key, hex);
+        }
         syncConfigFromForm();
         debounce('color', applyCosmeticOptions);
       });

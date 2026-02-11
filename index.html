@@ -39,11 +39,30 @@
     <aside class="sidebar">
       <div class="sidebar-content">
         <form class="settings-form" id="settings-form">
-          <div class="form-group">
-            <label for="widget-url">Widget script URL</label>
-            <input type="text" id="widget-url" class="form-input" maxlength="512"
-              placeholder="https://..."
-              value="https://yourinho.github.io/integrations_widget/albato-widget.iife.js">
+          <div class="widget-url-section">
+            <span class="url-label">Widget script URL</span>
+            <div class="url-input-row">
+              <div class="url-input" id="url-input-wrap">
+                <svg class="url-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                </svg>
+                <input type="text" id="widget-url" class="url-value" maxlength="512"
+                  placeholder="https://..." value="https://yourinho.github.io/integrations_widget/albato-widget.iife.js">
+              </div>
+              <button type="button" class="icon-button" id="url-copy" aria-label="Copy URL" title="Copy">
+                <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2"/>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+              </button>
+              <button type="button" class="icon-button" id="url-edit" aria-label="Edit URL" title="Edit">
+                <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                </svg>
+              </button>
+            </div>
             <span class="form-hint form-error" id="url-error" aria-live="polite"></span>
           </div>
 
@@ -118,60 +137,74 @@
             </select>
           </div>
 
-          <div class="form-group form-group-colors">
-            <div class="form-group-header">
-              <span class="form-label">Colors</span>
-              <button type="button" class="btn-reset-colors">Reset to defaults</button>
+          <div class="colors-section">
+            <div class="colors-section-header">
+              <span class="section-title">Colors</span>
+              <button type="button" class="btn-reset-colors">
+                <svg class="btn-reset-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M1 4v6h6"/>
+                  <path d="M23 20v-6h-6"/>
+                  <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
+                </svg>
+                <span>Reset to defaults</span>
+              </button>
             </div>
-            <div class="color-fields">
-              <div class="color-field" data-key="primary">
-                <label for="color-primary">Primary</label>
-                <div class="color-input-row">
-                  <input type="color" id="color-primary" value="#2C3534">
-                  <input type="text" class="form-input color-hex" data-key="primary" value="#2C3534" maxlength="9">
+            <div class="colors-grid">
+              <div class="color-row" data-key="primary">
+                <div class="color-picker">
+                  <div class="color-swatch" id="swatch-primary" style="background:#2C3534"></div>
+                  <span class="color-label">Primary</span>
+                  <input type="color" id="color-primary" value="#2C3534" aria-label="Primary color">
                 </div>
+                <input type="text" class="color-hex form-input" data-key="primary" value="#2C3534" maxlength="9">
               </div>
-              <div class="color-field" data-key="background">
-                <label for="color-background">Background</label>
-                <div class="color-input-row">
-                  <input type="color" id="color-background" value="#FFFFFF">
-                  <input type="text" class="form-input color-hex" data-key="background" value="#FFFFFF" maxlength="9">
+              <div class="color-row" data-key="background">
+                <div class="color-picker">
+                  <div class="color-swatch" id="swatch-background" style="background:#FFFFFF"></div>
+                  <span class="color-label">Background</span>
+                  <input type="color" id="color-background" value="#FFFFFF" aria-label="Background color">
                 </div>
+                <input type="text" class="color-hex form-input" data-key="background" value="#FFFFFF" maxlength="9">
               </div>
-              <div class="color-field" data-key="surface">
-                <label for="color-surface">Surface</label>
-                <div class="color-input-row">
-                  <input type="color" id="color-surface" value="#F4F5F6">
-                  <input type="text" class="form-input color-hex" data-key="surface" value="#F4F5F6" maxlength="9">
+              <div class="color-row" data-key="surface">
+                <div class="color-picker">
+                  <div class="color-swatch" id="swatch-surface" style="background:#F4F5F6"></div>
+                  <span class="color-label">Surface</span>
+                  <input type="color" id="color-surface" value="#F4F5F6" aria-label="Surface color">
                 </div>
+                <input type="text" class="color-hex form-input" data-key="surface" value="#F4F5F6" maxlength="9">
               </div>
-              <div class="color-field" data-key="text">
-                <label for="color-text">Text</label>
-                <div class="color-input-row">
-                  <input type="color" id="color-text" value="#2C3534">
-                  <input type="text" class="form-input color-hex" data-key="text" value="#2C3534" maxlength="9">
+              <div class="color-row" data-key="text">
+                <div class="color-picker">
+                  <div class="color-swatch" id="swatch-text" style="background:#2C3534"></div>
+                  <span class="color-label">Text</span>
+                  <input type="color" id="color-text" value="#2C3534" aria-label="Text color">
                 </div>
+                <input type="text" class="color-hex form-input" data-key="text" value="#2C3534" maxlength="9">
               </div>
-              <div class="color-field" data-key="textMuted">
-                <label for="color-textMuted">Text muted</label>
-                <div class="color-input-row">
-                  <input type="color" id="color-textMuted" value="#A0A4B1">
-                  <input type="text" class="form-input color-hex" data-key="textMuted" value="#A0A4B1" maxlength="9">
+              <div class="color-row" data-key="textMuted">
+                <div class="color-picker">
+                  <div class="color-swatch" id="swatch-textMuted" style="background:#A0A4B1"></div>
+                  <span class="color-label">Text muted</span>
+                  <input type="color" id="color-textMuted" value="#A0A4B1" aria-label="Text muted color">
                 </div>
+                <input type="text" class="color-hex form-input" data-key="textMuted" value="#A0A4B1" maxlength="9">
               </div>
-              <div class="color-field" data-key="border">
-                <label for="color-border">Border</label>
-                <div class="color-input-row">
-                  <input type="color" id="color-border" value="#E6E8EC">
-                  <input type="text" class="form-input color-hex" data-key="border" value="#E6E8EC" maxlength="9">
+              <div class="color-row" data-key="border">
+                <div class="color-picker">
+                  <div class="color-swatch" id="swatch-border" style="background:#E6E8EC"></div>
+                  <span class="color-label">Border</span>
+                  <input type="color" id="color-border" value="#E6E8EC" aria-label="Border color">
                 </div>
+                <input type="text" class="color-hex form-input" data-key="border" value="#E6E8EC" maxlength="9">
               </div>
-              <div class="color-field" data-key="textOnPrimary">
-                <label for="color-textOnPrimary">Text on primary</label>
-                <div class="color-input-row">
-                  <input type="color" id="color-textOnPrimary" value="#FFFFFF">
-                  <input type="text" class="form-input color-hex" data-key="textOnPrimary" value="#FFFFFF" maxlength="9">
+              <div class="color-row" data-key="textOnPrimary">
+                <div class="color-picker">
+                  <div class="color-swatch" id="swatch-textOnPrimary" style="background:#FFFFFF"></div>
+                  <span class="color-label">Text on primary</span>
+                  <input type="color" id="color-textOnPrimary" value="#FFFFFF" aria-label="Text on primary color">
                 </div>
+                <input type="text" class="color-hex form-input" data-key="textOnPrimary" value="#FFFFFF" maxlength="9">
               </div>
             </div>
           </div>
