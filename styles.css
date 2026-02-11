@@ -481,6 +481,125 @@ body {
   cursor: not-allowed;
 }
 
+/* ===== Embed Modal ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+}
+
+.modal-overlay.is-open {
+  display: flex;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  max-width: 640px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid #E6E8EC;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.modal-close {
+  padding: 4px;
+  font-size: 24px;
+  line-height: 1;
+  color: #A0A4B1;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.modal-close:hover {
+  color: #2C3534;
+  background: #F4F5F6;
+}
+
+.modal-body {
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.modal-code {
+  margin: 0 0 20px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.modal-code code {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+.modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.btn-copy {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  color: #fff;
+  background: #2C3534;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-copy:hover {
+  background: #3d4847;
+}
+
+.copy-feedback {
+  font-size: 14px;
+  color: #059669;
+  display: none;
+}
+
+.copy-feedback.is-visible {
+  display: inline;
+}
+
+.modal-doc-link {
+  font-size: 14px;
+  color: #2C3534;
+  text-decoration: none;
+}
+
+.modal-doc-link:hover {
+  text-decoration: underline;
+}
+
 /* ===== Responsive: Stacked layout (< 1024px) ===== */
 @media (max-width: 1023px) {
   .configurator-main {

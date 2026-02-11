@@ -23,6 +23,7 @@
     initPreviewToggle();
     initSettingsPanel();
     initWidgetPreview();
+    initEmbedModal();
   }
 
   function initPreviewToggle() {
@@ -409,6 +410,70 @@
     }
 
     loadWidget();
+  }
+
+  function openEmbedModal() {
+    syncConfigFromForm();
+    const code = window.CodeGenerator.generateEmbedCode(config);
+    const codeEl = document.getElementById('embed-code');
+    const modal = document.getElementById('embed-modal');
+    if (codeEl && modal) {
+      codeEl.textContent = code;
+      if (window.Prism) Prism.highlightElement(codeEl);
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+  }
+
+  function closeEmbedModal() {
+    const modal = document.getElementById('embed-modal');
+    if (modal) {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  function initEmbedModal() {
+    const btnGetEmbed = document.getElementById('btn-get-embed');
+    const modal = document.getElementById('embed-modal');
+    const btnClose = document.querySelector('.modal-close');
+    const btnCopy = document.getElementById('btn-copy');
+    const feedback = document.getElementById('copy-feedback');
+    const codeEl = document.getElementById('embed-code');
+
+    if (btnGetEmbed) {
+      btnGetEmbed.addEventListener('click', openEmbedModal);
+    }
+
+    if (btnClose) {
+      btnClose.addEventListener('click', closeEmbedModal);
+    }
+
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeEmbedModal();
+      });
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal?.classList.contains('is-open')) {
+        closeEmbedModal();
+      }
+    });
+
+    if (btnCopy && feedback && codeEl) {
+      btnCopy.addEventListener('click', () => {
+        const code = codeEl.textContent;
+        navigator.clipboard.writeText(code).then(() => {
+          feedback.classList.add('is-visible');
+          btnCopy.disabled = true;
+          setTimeout(() => {
+            feedback.classList.remove('is-visible');
+            btnCopy.disabled = false;
+          }, 2000);
+        });
+      });
+    }
   }
 
   window.ConfiguratorApp = {
