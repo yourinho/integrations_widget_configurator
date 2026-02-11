@@ -143,7 +143,7 @@
 
   function syncConfigFromForm() {
     const urlInput = document.getElementById('widget-url');
-    const fontInput = document.getElementById('font');
+    const fontSelect = document.getElementById('font');
     const cardSizeSelect = document.getElementById('card-size');
     const detailCardSizeSelect = document.getElementById('detail-card-size');
     const detailLayoutSelect = document.getElementById('detail-layout');
@@ -151,7 +151,7 @@
     const regionCheckboxes = document.querySelectorAll('input[name="region"]:checked');
 
     if (urlInput) config.widgetUrl = urlInput.value.trim();
-    if (fontInput) config.font = fontInput.value.trim();
+    if (fontSelect) config.font = fontSelect.value.trim();
     if (cardSizeSelect) config.cardSize = cardSizeSelect.value;
     if (detailCardSizeSelect) config.detailCardSize = detailCardSizeSelect.value;
     if (detailLayoutSelect) config.detailLayout = detailLayoutSelect.value;
@@ -228,7 +228,7 @@
 
   function initSettingsPanel() {
     const urlInput = document.getElementById('widget-url');
-    const fontInput = document.getElementById('font');
+    const fontSelect = document.getElementById('font');
     const cardSizeSelect = document.getElementById('card-size');
     const detailCardSizeSelect = document.getElementById('detail-card-size');
     const detailLayoutSelect = document.getElementById('detail-layout');
@@ -277,8 +277,15 @@
       });
     }
 
-    if (fontInput) {
-      fontInput.addEventListener('input', () => debounce('font', applyCosmeticOptions));
+    if (fontSelect && window.WidgetConfig?.SUPPORTED_FONTS?.length) {
+      fontSelect.innerHTML = window.WidgetConfig.SUPPORTED_FONTS
+        .map((f) => `<option value="${f.value.replace(/"/g, '&quot;')}">${f.label}</option>`)
+        .join('');
+      fontSelect.addEventListener('change', () => {
+        const fontValue = fontSelect.value.trim();
+        if (window.FontLoader && fontValue) window.FontLoader.loadFont(fontValue);
+        applyCosmeticOptions();
+      });
     }
 
     [cardSizeSelect, detailCardSizeSelect, alignSelect].forEach((el) => {
