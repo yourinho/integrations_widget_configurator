@@ -915,8 +915,7 @@ body {
 .preview-wrapper {
   display: flex;
   justify-content: center;
-  flex: 1;
-  min-height: 400px;
+  align-items: flex-start;
 }
 
 .preview-wrapper.desktop .widget-wrapper {
@@ -940,13 +939,13 @@ body {
 
 .widget-container {
   width: 100%;
-  min-height: 400px;
 }
 
 .widget-container.is-loading {
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 200px;
   color: #A0A4B1;
   font-size: 15px;
 }
@@ -958,7 +957,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 16px;
-  min-height: 400px;
+  min-height: 200px;
   padding: 24px;
   text-align: center;
 }
