@@ -163,13 +163,13 @@
     if (alignSelect) config.align = alignSelect.value;
 
     if (mode === 'region') {
-      const regionAll = document.getElementById('region-all');
-      if (regionAll?.checked) {
-        config.regions = [];
-      } else {
-        const regionCheckboxes = document.querySelectorAll('input[name="region"][value!="all"]:checked');
-        config.regions = Array.from(regionCheckboxes).map((c) => parseInt(c.value, 10));
-      }
+      const regionSelect = document.getElementById('region-select');
+      const regionValue = regionSelect?.value || 'all';
+      if (regionValue === 'all') config.regions = [];
+      else if (regionValue === 'brazil') config.regions = [2];
+      else if (regionValue === 'global') config.regions = [3];
+      else if (regionValue === 'brazil-global') config.regions = [2, 3];
+      else config.regions = [];
       config.partnerIds = [];
     } else {
       config.regions = [];
@@ -250,8 +250,6 @@
     const detailCardSizeSelect = document.getElementById('detail-card-size');
     const detailLayoutSelect = document.getElementById('detail-layout');
     const alignSelect = document.getElementById('align');
-    const regionCheckboxes = document.querySelectorAll('input[name="region"]');
-
     function handleUrlChange() {
       const url = urlInput.value.trim();
       if (!window.Validation.isValidWidgetUrl(url)) {
@@ -322,9 +320,7 @@
     const tabManual = document.querySelector('.integration-tab[data-tab="manual"]');
     const panelRegion = document.getElementById('panel-region');
     const panelManual = document.getElementById('panel-manual');
-    const regionAll = document.getElementById('region-all');
-    const regionBrazil = document.getElementById('region-brazil');
-    const regionGlobal = document.getElementById('region-global');
+    const regionSelect = document.getElementById('region-select');
 
     function switchToRegion() {
       tabRegion?.classList.add('active');
@@ -347,12 +343,14 @@
       tabRegion?.setAttribute('aria-selected', 'false');
       panelManual?.removeAttribute('hidden');
       panelRegion?.setAttribute('hidden', '');
-      if (regionAll) regionAll.checked = true;
-      if (regionBrazil) regionBrazil.checked = false;
-      if (regionGlobal) regionGlobal.checked = false;
-      config.regions = [];
-      syncConfigFromForm();
-      reinitWidget();
+      if (regionSelect) {
+        regionSelect.value = 'all';
+        regionSelect.dispatchEvent(new Event('change', { bubbles: true }));
+      } else {
+        config.regions = [];
+        syncConfigFromForm();
+        reinitWidget();
+      }
     }
 
     tabRegion?.addEventListener('click', () => {
@@ -362,26 +360,12 @@
       if (!tabManual.classList.contains('active')) switchToManual();
     });
 
-    if (regionAll) {
-      regionAll.addEventListener('change', () => {
-        if (regionAll.checked) {
-          if (regionBrazil) regionBrazil.checked = false;
-          if (regionGlobal) regionGlobal.checked = false;
-        }
+    if (regionSelect) {
+      regionSelect.addEventListener('change', () => {
         syncConfigFromForm();
         reinitWidget();
       });
     }
-
-    [regionBrazil, regionGlobal].forEach((cb) => {
-      if (cb) {
-        cb.addEventListener('change', () => {
-          if (cb.checked && regionAll) regionAll.checked = false;
-          syncConfigFromForm();
-          reinitWidget();
-        });
-      }
-    });
   }
 
   function isValidPartnerId(value) {
@@ -631,17 +615,33 @@
   }
 
   function openEmbedModal() {
-    syncConfigFromForm();
-    const code = window.CodeGenerator.generateEmbedCode(config);
-    const codeEl = document.getElementById('embed-code');
-    const modal = document.getElementById('embed-modal');
-    if (codeEl && modal) {
-      codeEl.textContent = code;
-      if (window.Prism) Prism.highlightElement(codeEl);
-      modal.classList.add('is-open');
-      modal.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-      document.querySelector('.modal-close')?.focus();
+    try {
+      syncConfigFromForm();
+      if (!config) {
+        console.error('Configurator: config is not initialized');
+        return;
+      }
+      if (typeof window.CodeGenerator?.generateEmbedCode !== 'function') {
+        console.error('Configurator: CodeGenerator.generateEmbedCode not available');
+        return;
+      }
+      const code = window.CodeGenerator.generateEmbedCode(config);
+      const codeEl = document.getElementById('embed-code');
+      const modal = document.getElementById('embed-modal');
+      if (codeEl && modal) {
+        codeEl.textContent = code;
+        try {
+          if (window.Prism) window.Prism.highlightElement(codeEl);
+        } catch (prismErr) {
+          console.warn('Prism highlight failed:', prismErr);
+        }
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        document.querySelector('.modal-close')?.focus();
+      }
+    } catch (err) {
+      console.error('Configurator: openEmbedModal failed', err);
     }
   }
 

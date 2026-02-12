@@ -75,16 +75,14 @@
             </div>
 
             <div class="integration-filter-panel integration-filter-panel-region" role="tabpanel" id="panel-region">
-              <div class="integration-filter-checkboxes">
-                <label class="form-checkbox">
-                  <input type="checkbox" name="region" value="all" id="region-all" checked> All regions
-                </label>
-                <label class="form-checkbox">
-                  <input type="checkbox" name="region" value="2" id="region-brazil"> Brazil
-                </label>
-                <label class="form-checkbox">
-                  <input type="checkbox" name="region" value="3" id="region-global"> Global
-                </label>
+              <div class="form-group">
+                <label for="region-select">Region</label>
+                <select id="region-select" class="form-select custom-select-target">
+                  <option value="all">All regions</option>
+                  <option value="brazil">Only Brazil</option>
+                  <option value="global">Only global</option>
+                  <option value="brazil-global">Brazil and global</option>
+                </select>
               </div>
             </div>
 
