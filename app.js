@@ -161,6 +161,16 @@
     if (detailCardSizeSelect) config.detailCardSize = detailCardSizeSelect.value;
     if (detailLayoutSelect) config.detailLayout = detailLayoutSelect.value;
     if (alignSelect) config.align = alignSelect.value;
+    const cardRadiusInput = document.getElementById('card-radius');
+    const detailCardRadiusInput = document.getElementById('detail-card-radius');
+    if (cardRadiusInput) {
+      const v = parseInt(cardRadiusInput.value, 10);
+      config.cardRadius = !isNaN(v) && v >= 0 ? v : 8;
+    }
+    if (detailCardRadiusInput) {
+      const v = parseInt(detailCardRadiusInput.value, 10);
+      config.detailCardRadius = !isNaN(v) && v >= 0 ? v : 8;
+    }
 
     if (mode === 'region') {
       const regionSelect = document.getElementById('region-select');
@@ -231,6 +241,8 @@
       align: config.align,
       font: config.font,
       colors: config.colors,
+      cardRadius: config.cardRadius,
+      detailCardRadius: config.detailCardRadius,
     };
     window.WidgetLoader.updateWidgetOptions(mount, params);
   }
@@ -306,6 +318,18 @@
 
     [cardSizeSelect, detailCardSizeSelect, alignSelect].forEach((el) => {
       if (el) el.addEventListener('change', applyCosmeticOptions);
+    });
+    const cardRadiusInput = document.getElementById('card-radius');
+    const detailCardRadiusInput = document.getElementById('detail-card-radius');
+    [cardRadiusInput, detailCardRadiusInput].forEach((el) => {
+      if (el) el.addEventListener('input', () => debounce('radius', applyCosmeticOptions));
+    });
+    document.querySelectorAll('.number-input-wrap').forEach((wrap) => {
+      const input = wrap.querySelector('input[type="number"]');
+      const stepUp = wrap.querySelector('.number-input-step-up');
+      const stepDown = wrap.querySelector('.number-input-step-down');
+      if (input && stepUp) stepUp.addEventListener('click', () => { input.stepUp(); input.dispatchEvent(new Event('input', { bubbles: true })); });
+      if (input && stepDown) stepDown.addEventListener('click', () => { input.stepDown(); input.dispatchEvent(new Event('input', { bubbles: true })); });
     });
 
     if (detailLayoutSelect) detailLayoutSelect.addEventListener('change', reinitWidget);

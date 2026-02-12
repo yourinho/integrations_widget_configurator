@@ -127,6 +127,81 @@ body {
   border-radius: 8px;
 }
 
+/* Hide native number input spinners */
+input[type="number"].number-input-target::-webkit-inner-spin-button,
+input[type="number"].number-input-target::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"].number-input-target {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Number input with custom steppers */
+.number-input-wrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+}
+.number-input-wrap .form-input {
+  padding-right: 36px;
+  border-radius: 8px;
+}
+.number-input-steppers {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: 28px;
+  border-left: 1px solid #E6E8EC;
+  border-radius: 0 8px 8px 0;
+  pointer-events: none;
+}
+.number-input-wrap .form-input:focus ~ .number-input-steppers {
+  border-left-color: #2C3534;
+}
+.number-input-step {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  min-height: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  color: #777E90;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: color 0.15s, background 0.15s;
+}
+.number-input-step:hover {
+  color: #2C3534;
+  background: rgba(244, 245, 246, 0.8);
+}
+.number-input-step:active {
+  background: rgba(223, 227, 230, 0.5);
+}
+.number-input-step svg {
+  display: block;
+  width: 14px;
+  height: 14px;
+}
+.number-input-step-up {
+  border-radius: 0 8px 0 0;
+  border-bottom: 1px solid #E6E8EC;
+}
+.number-input-wrap .form-input:focus ~ .number-input-steppers .number-input-step-up {
+  border-bottom-color: #2C3534;
+}
+.number-input-step-down {
+  border-radius: 0 0 8px 0;
+}
+
 .form-select {
   display: flex;
   align-items: center;
