@@ -61,10 +61,21 @@
   }
 
   function initAccordions() {
+    const items = document.querySelectorAll('.accordion-item');
     document.querySelectorAll('.accordion-trigger').forEach((trigger) => {
       trigger.addEventListener('click', () => {
         const item = trigger.closest('.accordion-item');
         if (!item) return;
+        const wasCollapsed = item.classList.contains('is-collapsed');
+        if (wasCollapsed) {
+          items.forEach((other) => {
+            if (other !== item) {
+              other.classList.add('is-collapsed');
+              const t = other.querySelector('.accordion-trigger');
+              if (t) t.setAttribute('aria-expanded', 'false');
+            }
+          });
+        }
         const collapsed = item.classList.toggle('is-collapsed');
         trigger.setAttribute('aria-expanded', String(!collapsed));
       });
