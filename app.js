@@ -21,10 +21,43 @@
   function init() {
     config = window.WidgetConfig.getDefaultConfig();
     initPreviewToggle();
+    initSidebarToggle();
     initAccordions();
     initSettingsPanel();
     initWidgetPreview();
     initEmbedModal();
+  }
+
+  function initSidebarToggle() {
+    const main = document.querySelector('.configurator-main');
+    const toggleBtn = document.getElementById('sidebar-toggle');
+    const sidebarTab = document.getElementById('sidebar-tab');
+
+    const SIDEBAR_KEY = 'widget-configurator-sidebar-hidden';
+
+    function setSidebarHidden(hidden) {
+      main.classList.toggle('sidebar-hidden', hidden);
+      if (toggleBtn) {
+        toggleBtn.setAttribute('aria-label', hidden ? 'Show settings panel' : 'Hide settings panel');
+        toggleBtn.setAttribute('title', hidden ? 'Show settings' : 'Hide settings');
+      }
+      if (sidebarTab) {
+        sidebarTab.setAttribute('aria-hidden', String(!hidden));
+      }
+      try {
+        localStorage.setItem(SIDEBAR_KEY, hidden ? '1' : '0');
+      } catch (_) {}
+    }
+
+    const stored = typeof localStorage !== 'undefined' ? localStorage.getItem(SIDEBAR_KEY) : null;
+    if (stored === '1') setSidebarHidden(true);
+
+    function toggle() {
+      setSidebarHidden(main.classList.toggle('sidebar-hidden'));
+    }
+
+    if (toggleBtn) toggleBtn.addEventListener('click', toggle);
+    if (sidebarTab) sidebarTab.addEventListener('click', toggle);
   }
 
   function initAccordions() {

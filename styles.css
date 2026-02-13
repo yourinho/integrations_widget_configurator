@@ -39,6 +39,11 @@ body {
   flex: 1;
   min-height: 0;
   overflow: hidden;
+  position: relative;
+}
+
+.configurator-main.sidebar-hidden .sidebar {
+  display: none;
 }
 
 /* Preview: left, flex-grow */
@@ -1036,6 +1041,48 @@ input[type="number"].number-input-target {
   min-width: 200px;
 }
 
+.btn-toggle-sidebar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 40px;
+  height: 40px;
+  margin-left: auto;
+  padding: 0 12px;
+  background: #f4f5f6;
+  border: 1px solid #e6e8ec;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #414653;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn-toggle-sidebar:hover {
+  background: #ebeced;
+  color: #ff592c;
+}
+
+#sidebar-toggle {
+  padding: 0;
+  min-width: 40px;
+}
+
+.configurator-main.sidebar-hidden #sidebar-toggle {
+  display: none;
+}
+
+.configurator-main .sidebar-tab {
+  display: none;
+}
+
+.configurator-main.sidebar-hidden .sidebar-tab {
+  display: flex;
+}
+
 .preview-toggle {
   display: flex;
   flex-direction: row;
@@ -1197,6 +1244,8 @@ input[type="number"].number-input-target {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* ===== Sidebar Tab (show when sidebar hidden) ===== */
 
 /* ===== Floating Embed Button ===== */
 .btn-embed-floating {
