@@ -930,7 +930,6 @@
     const modal = document.getElementById('embed-modal');
     const btnClose = document.querySelector('.modal-close');
     const btnCopy = document.getElementById('btn-copy');
-    const feedback = document.getElementById('copy-feedback');
     const codeEl = document.getElementById('embed-code');
 
     if (btnGetEmbed) {
@@ -953,14 +952,29 @@
       }
     });
 
-    if (btnCopy && feedback && codeEl) {
+    if (btnCopy && codeEl) {
+      const iconCopy = btnCopy.querySelector('.embed-copy-icon');
+      const iconCheck = btnCopy.querySelector('.embed-copy-check');
+      const label = btnCopy.querySelector('.embed-copy-label');
+      const feedback = btnCopy.querySelector('.embed-copy-feedback');
+
       btnCopy.addEventListener('click', () => {
         const code = codeEl.textContent;
         navigator.clipboard.writeText(code).then(() => {
-          feedback.classList.add('is-visible');
+          if (iconCopy && iconCheck && label && feedback) {
+            iconCopy.style.display = 'none';
+            iconCheck.style.display = '';
+            label.style.display = 'none';
+            feedback.style.display = '';
+          }
           btnCopy.disabled = true;
           setTimeout(() => {
-            feedback.classList.remove('is-visible');
+            if (iconCopy && iconCheck && label && feedback) {
+              iconCopy.style.display = '';
+              iconCheck.style.display = 'none';
+              label.style.display = '';
+              feedback.style.display = 'none';
+            }
             btnCopy.disabled = false;
           }, 2000);
         });

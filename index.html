@@ -6,7 +6,7 @@
   <title>Albato Widget Configurator</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Open+Sans:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400&family=Open+Sans:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
 </head>
 <body>
@@ -487,7 +487,7 @@
       </div>
     </aside>
 
-    <button type="button" class="btn-primary btn-embed-floating" id="btn-get-embed" aria-label="Get Embed Code">Get Embed Code</button>
+    <button type="button" class="btn-primary btn-embed-floating" id="btn-get-embed" aria-label="Get embed code">Get embed code</button>
   </main>
 
   <div class="modal-overlay" id="bulk-add-modal" aria-hidden="true">
@@ -535,16 +535,35 @@
   <div class="modal-overlay" id="embed-modal" aria-hidden="true">
     <div class="modal" role="dialog" aria-labelledby="embed-modal-title">
       <div class="modal-header">
-        <h2 id="embed-modal-title">Embed Code</h2>
-        <button type="button" class="modal-close" aria-label="Close">&times;</button>
+        <div class="embed-modal-header-block">
+          <h2 id="embed-modal-title" class="embed-modal-title">Get embed code</h2>
+        </div>
+        <button type="button" class="modal-close" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M1.59998 1.6L14.4 14.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14.4 1.6L1.59998 14.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
       </div>
       <div class="modal-body">
+        <p class="modal-code-label">Copy and paste this code into your website's HTML:</p>
         <pre class="modal-code"><code id="embed-code" class="language-markup"></code></pre>
         <div class="modal-actions">
-          <button type="button" class="btn-copy" id="btn-copy">Copy</button>
-          <span class="copy-feedback" id="copy-feedback">Copied to clipboard</span>
+          <button type="button" class="embed-copy-btn btn-copy" id="btn-copy" aria-live="polite">
+            <svg class="embed-copy-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <svg class="embed-copy-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none"><path d="M20 6L9 17l-5-5"/></svg>
+            <span class="embed-copy-label">Copy embed code</span>
+            <span class="embed-copy-feedback" style="display:none">Copied to clipboard</span>
+          </button>
         </div>
-        <a href="https://github.com/yourinho/integrations_widget/blob/main/EMBEDDING_TUTORIAL.md#styling-tips" target="_blank" rel="noopener noreferrer" class="modal-doc-link">View embedding instructions</a>
+        <div class="modal-divider" aria-hidden="true"></div>
+        <h3 class="embed-how-title">How to install:</h3>
+        <ol class="embed-how-steps">
+          <li>Copy the code above by clicking the button</li>
+          <li>Paste it into your website's HTML, just before the closing <code>&lt;/body&gt;</code> tag</li>
+          <li>Save and publish your website - the widget will appear automatically</li>
+        </ol>
+        <a href="https://github.com/yourinho/integrations_widget/blob/main/EMBEDDING_TUTORIAL.md#styling-tips" target="_blank" rel="noopener noreferrer" class="modal-doc-link">👉 View full documentation</a>
       </div>
     </div>
   </div>
