@@ -742,13 +742,19 @@ input[type="number"].number-input-target {
   margin: 0;
 }
 
-.color-row-shadow {
-  flex-direction: column;
-  align-items: stretch;
+.color-picker-shadow {
+  cursor: default;
 }
 
-.color-row-shadow .color-label {
-  margin-bottom: 4px;
+.color-picker-shadow .color-swatch.shadow-swatch {
+  background: #fff;
+  border: 1px solid #E6E8EC;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.color-row-shadow .color-hex {
+  flex: 1;
+  min-width: 0;
 }
 
 .form-textarea {

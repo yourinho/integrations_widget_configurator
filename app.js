@@ -295,14 +295,7 @@
   function resetColorsToDefaults() {
     const defaults = window.WidgetConfig.DEFAULT_COLORS;
     config.colors = { ...defaults };
-    Object.keys(defaults).forEach((key) => {
-      const picker = document.getElementById('color-' + key);
-      const hexInput = document.querySelector('.color-hex[data-key="' + key + '"]');
-      const val = defaults[key] || '';
-      if (picker && key !== 'cardHoverShadow') picker.value = val || '#ffffff';
-      if (hexInput) hexInput.value = val;
-      updateColorSwatch(key, val);
-    });
+    syncColorsToForm();
     applyCosmeticOptions();
   }
 
@@ -803,9 +796,31 @@
     if (swatch) swatch.style.background = value || '#ffffff';
   }
 
+  function syncColorsToForm() {
+    if (!config?.colors) return;
+    const defaults = window.WidgetConfig.DEFAULT_COLORS || {};
+    Object.keys(defaults).forEach((key) => {
+      const val = config.colors[key];
+      const str = val != null ? String(val).trim() : '';
+      const hexInput = document.querySelector('.color-hex[data-key="' + key + '"]');
+      const picker = document.getElementById('color-' + key);
+      if (hexInput) hexInput.value = str;
+      if (picker && str && hexToSixDigit(str)) picker.value = hexToSixDigit(str) || picker.value;
+      if (key !== 'cardHoverShadow') {
+        updateColorSwatch(key, str || (picker?.value || '#ffffff'));
+      }
+    });
+    const shadowInput = document.querySelector('.color-hex[data-key="cardHoverShadow"]');
+    const shadowSwatch = document.getElementById('shadow-swatch-cardHoverShadow');
+    if (shadowInput) shadowInput.value = (config.colors.cardHoverShadow || '').trim();
+    if (shadowSwatch) shadowSwatch.style.boxShadow = (config.colors.cardHoverShadow || '').trim() || '0 4px 12px rgba(0,0,0,0.08)';
+  }
+
   function initColorFields() {
     const resetBtn = document.querySelector('.btn-reset-colors');
     if (resetBtn) resetBtn.addEventListener('click', resetColorsToDefaults);
+
+    syncColorsToForm();
 
     document.querySelectorAll('.color-row').forEach((row) => {
       const key = row.dataset.key;
@@ -813,6 +828,11 @@
       const picker = row.querySelector('input[type="color"]');
       const hexInput = row.querySelector('.color-hex');
       if (!hexInput) return;
+
+      if (key === 'cardHoverShadow') {
+        initCardHoverShadow(row, hexInput);
+        return;
+      }
 
       if (picker) {
         picker.addEventListener('input', () => {
@@ -836,6 +856,23 @@
         debounce('color', applyCosmeticOptions);
       });
     });
+  }
+
+  function initCardHoverShadow(row, hexInput) {
+    const swatch = document.getElementById('shadow-swatch-cardHoverShadow');
+
+    function updateShadowSwatch() {
+      const val = hexInput.value.trim();
+      if (swatch) swatch.style.boxShadow = val || '0 4px 12px rgba(0,0,0,0.08)';
+    }
+
+    hexInput.addEventListener('input', () => {
+      updateShadowSwatch();
+      syncConfigFromForm();
+      debounce('color', applyCosmeticOptions);
+    });
+
+    updateShadowSwatch();
   }
 
   function initWidgetPreview() {
