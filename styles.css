@@ -1253,6 +1253,9 @@ input[type="number"].number-input-target {
 #widget-mount[data-show-detail-card-type="false"] .aw-detail-card-type { display: none !important; }
 #widget-mount[data-show-detail-card-footer="false"] .aw-detail-card-footer { display: none !important; }
 
+/* Card title size: widget hardcodes 15px/11px for M/S, override to use CSS var */
+#widget-mount .aw-card-title { font-size: var(--aw-font-card-title-size, 14px); }
+
 /* ===== Preview Error State ===== */
 .preview-error {
   display: none;
