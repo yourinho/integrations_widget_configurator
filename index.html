@@ -229,17 +229,131 @@
           </div>
 
           <div class="accordion-item is-collapsed">
+            <button type="button" class="accordion-trigger" aria-expanded="false" aria-controls="accordion-layout-spacing" id="accordion-layout-spacing-trigger">
+              <span class="accordion-title">Layout (spacing)</span>
+              <svg class="accordion-chevron" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 8l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div id="accordion-layout-spacing" class="accordion-content" role="region" aria-labelledby="accordion-layout-spacing-trigger">
+              <div class="layout-spacing-section">
+                <div class="form-group">
+                  <label for="max-width">Max width</label>
+                  <input type="text" id="max-width" class="form-input" value="1040px" placeholder="1040px">
+                </div>
+                <div class="form-group">
+                  <label for="gallery-padding">Gallery padding</label>
+                  <input type="text" id="gallery-padding" class="form-input" value="80px" placeholder="80px">
+                </div>
+                <div class="form-group">
+                  <label for="gallery-gap">Gallery gap</label>
+                  <input type="text" id="gallery-gap" class="form-input" value="32px" placeholder="32px">
+                </div>
+                <div class="form-group">
+                  <label for="gallery-cards-gap">Gallery cards gap</label>
+                  <input type="text" id="gallery-cards-gap" class="form-input" value="32px" placeholder="32px">
+                </div>
+                <div class="form-group">
+                  <label for="detail-padding">Detail padding</label>
+                  <input type="text" id="detail-padding" class="form-input" value="80px" placeholder="80px">
+                </div>
+                <div class="form-group">
+                  <label for="detail-gap">Detail gap</label>
+                  <input type="text" id="detail-gap" class="form-input" value="32px" placeholder="32px">
+                </div>
+                <div class="form-group">
+                  <label for="detail-cards-gap">Detail cards gap</label>
+                  <input type="text" id="detail-cards-gap" class="form-input" value="25px" placeholder="25px">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item is-collapsed">
+            <button type="button" class="accordion-trigger" aria-expanded="false" aria-controls="accordion-visibility" id="accordion-visibility-trigger">
+              <span class="accordion-title">Visibility</span>
+              <svg class="accordion-chevron" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 8l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div id="accordion-visibility" class="accordion-content" role="region" aria-labelledby="accordion-visibility-trigger">
+              <div class="visibility-section">
+                <h4 class="visibility-subtitle">Gallery</h4>
+                <label class="form-checkbox"><input type="checkbox" id="show-gallery-title" checked> Gallery title</label>
+                <label class="form-checkbox"><input type="checkbox" id="show-search" checked> Search input</label>
+                <label class="form-checkbox"><input type="checkbox" id="show-show-more" checked> Show more button</label>
+                <h4 class="visibility-subtitle">Detail page</h4>
+                <label class="form-checkbox"><input type="checkbox" id="show-detail-title" checked> Service detail title</label>
+                <label class="form-checkbox"><input type="checkbox" id="show-detail-subtitle" checked> Service description</label>
+                <label class="form-checkbox"><input type="checkbox" id="show-detail-tabs" checked> Tabs (Triggers/Actions)</label>
+                <label class="form-checkbox"><input type="checkbox" id="show-section-titles" checked> Section titles</label>
+                <h4 class="visibility-subtitle">Cards</h4>
+                <label class="form-checkbox"><input type="checkbox" id="show-card-logos" checked> Partner card logos</label>
+                <label class="form-checkbox"><input type="checkbox" id="show-detail-card-type" checked> Trigger/Action label</label>
+                <label class="form-checkbox"><input type="checkbox" id="show-detail-card-footer" checked> Detail card footer</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item is-collapsed">
             <button type="button" class="accordion-trigger" aria-expanded="false" aria-controls="accordion-typography" id="accordion-typography-trigger">
               <span class="accordion-title">Typography</span>
               <svg class="accordion-chevron" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 8l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
             <div id="accordion-typography" class="accordion-content" role="region" aria-labelledby="accordion-typography-trigger">
-          <div class="font-section">
-            <div class="form-group">
-              <label for="font">Select font</label>
-              <select id="font" class="form-select custom-select-target"></select>
+              <div class="font-section typography-section">
+                <div class="form-group">
+                  <label for="font">Font family</label>
+                  <select id="font" class="form-select custom-select-target"></select>
+                </div>
+                <h4 class="typography-subtitle">Gallery</h4>
+                <div class="form-group"><label for="typography-gallery-title-size">Gallery title size</label><input type="text" id="typography-gallery-title-size" class="form-input" value="56px" placeholder="56px"></div>
+                <div class="form-group"><label for="typography-gallery-title-weight">Gallery title weight</label><select id="typography-gallery-title-weight" class="form-select custom-select-target"><option value="400">400</option><option value="500">500</option><option value="600">600</option><option value="700" selected>700</option></select></div>
+                <h4 class="typography-subtitle">Search</h4>
+                <div class="form-group"><label for="typography-search-size">Search size</label><input type="text" id="typography-search-size" class="form-input" value="15px" placeholder="15px"></div>
+                <h4 class="typography-subtitle">Partner cards</h4>
+                <div class="form-group"><label for="typography-card-title-size">Card title size</label><input type="text" id="typography-card-title-size" class="form-input" value="14px" placeholder="14px"></div>
+                <div class="form-group"><label for="typography-card-title-weight">Card title weight</label><select id="typography-card-title-weight" class="form-select custom-select-target"><option value="400" selected>400</option><option value="500">500</option><option value="600">600</option><option value="700">700</option></select></div>
+                <h4 class="typography-subtitle">Detail page</h4>
+                <div class="form-group"><label for="typography-detail-title-size">Detail title size</label><input type="text" id="typography-detail-title-size" class="form-input" value="32px" placeholder="32px"></div>
+                <div class="form-group"><label for="typography-detail-title-weight">Detail title weight</label><select id="typography-detail-title-weight" class="form-select custom-select-target"><option value="400">400</option><option value="500">500</option><option value="600">600</option><option value="700" selected>700</option></select></div>
+                <div class="form-group"><label for="typography-detail-subtitle-size">Detail subtitle size</label><input type="text" id="typography-detail-subtitle-size" class="form-input" value="17px" placeholder="17px"></div>
+                <h4 class="typography-subtitle">Tabs & sections</h4>
+                <div class="form-group"><label for="typography-tab-size">Tab size</label><input type="text" id="typography-tab-size" class="form-input" value="15px" placeholder="15px"></div>
+                <div class="form-group"><label for="typography-section-title-size">Section title size</label><input type="text" id="typography-section-title-size" class="form-input" value="20px" placeholder="20px"></div>
+                <h4 class="typography-subtitle">Detail cards</h4>
+                <div class="form-group"><label for="typography-detail-card-name-size">Detail card name size</label><input type="text" id="typography-detail-card-name-size" class="form-input" value="17px" placeholder="17px"></div>
+                <div class="form-group"><label for="typography-detail-card-type-size">Detail card type size</label><input type="text" id="typography-detail-card-type-size" class="form-input" value="17px" placeholder="17px"></div>
+                <div class="form-group"><label for="typography-detail-card-type-weight">Detail card type weight</label><select id="typography-detail-card-type-weight" class="form-select custom-select-target"><option value="400">400</option><option value="500">500</option><option value="600" selected>600</option><option value="700">700</option></select></div>
+                <h4 class="typography-subtitle">Buttons</h4>
+                <div class="form-group"><label for="typography-show-more-size">Show more size</label><input type="text" id="typography-show-more-size" class="form-input" value="17px" placeholder="17px"></div>
+                <div class="form-group"><label for="typography-back-size">Back button size</label><input type="text" id="typography-back-size" class="form-input" value="17px" placeholder="17px"></div>
+              </div>
             </div>
           </div>
+
+          <div class="accordion-item is-collapsed">
+            <button type="button" class="accordion-trigger" aria-expanded="false" aria-controls="accordion-texts" id="accordion-texts-trigger">
+              <span class="accordion-title">Texts</span>
+              <svg class="accordion-chevron" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 8l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div id="accordion-texts" class="accordion-content" role="region" aria-labelledby="accordion-texts-trigger">
+              <div class="texts-section">
+                <h4 class="texts-subtitle">Main</h4>
+                <div class="form-group"><label for="text-gallery-title">Gallery title</label><input type="text" id="text-gallery-title" class="form-input" value="Available integrations" placeholder="Available integrations"></div>
+                <div class="form-group"><label for="text-search-placeholder">Search placeholder</label><input type="text" id="text-search-placeholder" class="form-input" value="Search integrations" placeholder="Search integrations"></div>
+                <div class="form-group"><label for="text-show-more">Show more</label><input type="text" id="text-show-more" class="form-input" value="Show more" placeholder="Show more"></div>
+                <div class="form-group"><label for="text-back">Back</label><input type="text" id="text-back" class="form-input" value="Back" placeholder="Back"></div>
+                <h4 class="texts-subtitle">Tabs</h4>
+                <div class="form-group"><label for="text-triggers-tab">Triggers tab</label><input type="text" id="text-triggers-tab" class="form-input" value="Triggers" placeholder="Triggers"></div>
+                <div class="form-group"><label for="text-actions-tab">Actions tab</label><input type="text" id="text-actions-tab" class="form-input" value="Actions" placeholder="Actions"></div>
+                <div class="form-group"><label for="text-triggers-and-actions-tab">Triggers & Actions tab</label><input type="text" id="text-triggers-and-actions-tab" class="form-input" value="Triggers & Actions" placeholder="Triggers & Actions"></div>
+                <h4 class="texts-subtitle">Empty states</h4>
+                <div class="form-group"><label for="text-empty-gallery">Empty gallery</label><input type="text" id="text-empty-gallery" class="form-input" value="No integrations available" placeholder="No integrations available"></div>
+                <div class="form-group"><label for="text-empty-search">Empty search</label><input type="text" id="text-empty-search" class="form-input" value="No services found" placeholder="No services found"></div>
+                <div class="form-group"><label for="text-empty-triggers">Empty triggers</label><input type="text" id="text-empty-triggers" class="form-input" value="This service has no available triggers" placeholder="This service has no available triggers"></div>
+                <div class="form-group"><label for="text-empty-actions">Empty actions</label><input type="text" id="text-empty-actions" class="form-input" value="This service has no available actions" placeholder="This service has no available actions"></div>
+                <h4 class="texts-subtitle">Errors</h4>
+                <div class="form-group"><label for="text-error-general">Error general</label><textarea id="text-error-general" class="form-input form-textarea" rows="2" placeholder="We couldn't load integrations right now.">We couldn't load integrations right now.</textarea></div>
+                <div class="form-group"><label for="text-error-services">Error services</label><input type="text" id="text-error-services" class="form-input" value="Failed to load services" placeholder="Failed to load services"></div>
+                <div class="form-group"><label for="text-retry">Retry button</label><input type="text" id="text-retry" class="form-input" value="Try again" placeholder="Try again"></div>
+              </div>
             </div>
           </div>
 
@@ -260,6 +374,7 @@
                 <span>Reset to defaults</span>
               </button>
             </div>
+            <h4 class="colors-subtitle">Basic</h4>
             <div class="colors-grid">
               <div class="color-row" data-key="primary">
                 <div class="color-picker">
@@ -333,6 +448,31 @@
                 </div>
                 <input type="text" class="color-hex form-input" data-key="detailCardBackground" value="#FFFFFF" maxlength="9">
               </div>
+            </div>
+            <h4 class="colors-subtitle">UI elements</h4>
+            <div class="colors-grid colors-grid-extended">
+              <div class="color-row" data-key="galleryBackground"><div class="color-picker"><div class="color-swatch" id="swatch-galleryBackground"></div><span class="color-label">Gallery background</span><input type="color" id="color-galleryBackground" value="#FFFFFF" aria-label="Gallery background"></div><input type="text" class="color-hex form-input" data-key="galleryBackground" placeholder="inherit" maxlength="9"></div>
+              <div class="color-row" data-key="detailBackground"><div class="color-picker"><div class="color-swatch" id="swatch-detailBackground"></div><span class="color-label">Detail background</span><input type="color" id="color-detailBackground" value="#FFFFFF" aria-label="Detail background"></div><input type="text" class="color-hex form-input" data-key="detailBackground" placeholder="inherit" maxlength="9"></div>
+              <div class="color-row" data-key="searchBackground"><div class="color-picker"><div class="color-swatch" id="swatch-searchBackground"></div><span class="color-label">Search background</span><input type="color" id="color-searchBackground" value="#FFFFFF" aria-label="Search background"></div><input type="text" class="color-hex form-input" data-key="searchBackground" placeholder="inherit" maxlength="9"></div>
+              <div class="color-row" data-key="searchBorderColor"><div class="color-picker"><div class="color-swatch" id="swatch-searchBorderColor"></div><span class="color-label">Search border</span><input type="color" id="color-searchBorderColor" value="#E6E8EC" aria-label="Search border"></div><input type="text" class="color-hex form-input" data-key="searchBorderColor" placeholder="inherit" maxlength="9"></div>
+              <div class="color-row" data-key="searchFocusBorderColor"><div class="color-picker"><div class="color-swatch" id="swatch-searchFocusBorderColor"></div><span class="color-label">Search focus border</span><input type="color" id="color-searchFocusBorderColor" value="#2C3534" aria-label="Search focus border"></div><input type="text" class="color-hex form-input" data-key="searchFocusBorderColor" placeholder="inherit" maxlength="9"></div>
+              <div class="color-row" data-key="cardBorderColor"><div class="color-picker"><div class="color-swatch" id="swatch-cardBorderColor"></div><span class="color-label">Card border</span><input type="color" id="color-cardBorderColor" value="#E6E8EC" aria-label="Card border"></div><input type="text" class="color-hex form-input" data-key="cardBorderColor" placeholder="inherit" maxlength="9"></div>
+              <div class="color-row" data-key="cardHoverBorderColor"><div class="color-picker"><div class="color-swatch" id="swatch-cardHoverBorderColor"></div><span class="color-label">Card hover border</span><input type="color" id="color-cardHoverBorderColor" value="#2C3534" aria-label="Card hover border"></div><input type="text" class="color-hex form-input" data-key="cardHoverBorderColor" placeholder="inherit" maxlength="9"></div>
+              <div class="color-row color-row-shadow" data-key="cardHoverShadow"><label class="color-label">Card hover shadow</label><input type="text" class="form-input color-hex" data-key="cardHoverShadow" placeholder="0 4px 12px rgba(0,0,0,0.08)" maxlength="80"></div>
+              <div class="color-row" data-key="tabBackground"><div class="color-picker"><div class="color-swatch" id="swatch-tabBackground"></div><span class="color-label">Tab background</span><input type="color" id="color-tabBackground" value="#F4F5F6" aria-label="Tab background"></div><input type="text" class="color-hex form-input" data-key="tabBackground" placeholder="inherit" maxlength="9"></div>
+              <div class="color-row" data-key="tabActiveBackground"><div class="color-picker"><div class="color-swatch" id="swatch-tabActiveBackground"></div><span class="color-label">Active tab background</span><input type="color" id="color-tabActiveBackground" value="#2C3534" aria-label="Active tab"></div><input type="text" class="color-hex form-input" data-key="tabActiveBackground" placeholder="inherit" maxlength="9"></div>
+              <div class="color-row" data-key="tabBorderColor"><div class="color-picker"><div class="color-swatch" id="swatch-tabBorderColor"></div><span class="color-label">Tab border</span><input type="color" id="color-tabBorderColor" value="#E6E8EC" aria-label="Tab border"></div><input type="text" class="color-hex form-input" data-key="tabBorderColor" placeholder="inherit" maxlength="9"></div>
+              <div class="color-row" data-key="detailCardFooterBackground"><div class="color-picker"><div class="color-swatch" id="swatch-detailCardFooterBackground"></div><span class="color-label">Detail card footer</span><input type="color" id="color-detailCardFooterBackground" value="#F4F5F6" aria-label="Detail card footer"></div><input type="text" class="color-hex form-input" data-key="detailCardFooterBackground" placeholder="inherit" maxlength="9"></div>
+              <div class="color-row" data-key="detailCardFooterLabelColor"><div class="color-picker"><div class="color-swatch" id="swatch-detailCardFooterLabelColor"></div><span class="color-label">Detail card footer label</span><input type="color" id="color-detailCardFooterLabelColor" value="#A0A4B1" aria-label="Detail card footer label"></div><input type="text" class="color-hex form-input" data-key="detailCardFooterLabelColor" placeholder="inherit" maxlength="9"></div>
+            </div>
+            <h4 class="colors-subtitle">Utility</h4>
+            <div class="colors-grid colors-grid-extended">
+              <div class="color-row" data-key="emptyTextColor"><div class="color-picker"><div class="color-swatch" id="swatch-emptyTextColor"></div><span class="color-label">Empty state text</span><input type="color" id="color-emptyTextColor" value="#A0A4B1" aria-label="Empty text"></div><input type="text" class="color-hex form-input" data-key="emptyTextColor" placeholder="inherit" maxlength="9"></div>
+              <div class="color-row" data-key="errorTextColor"><div class="color-picker"><div class="color-swatch" id="swatch-errorTextColor"></div><span class="color-label">Error text</span><input type="color" id="color-errorTextColor" value="#2C3534" aria-label="Error text"></div><input type="text" class="color-hex form-input" data-key="errorTextColor" placeholder="inherit" maxlength="9"></div>
+              <div class="color-row" data-key="skeletonColor"><div class="color-picker"><div class="color-swatch" id="swatch-skeletonColor"></div><span class="color-label">Skeleton loader</span><input type="color" id="color-skeletonColor" value="#E6E8EC" aria-label="Skeleton"></div><input type="text" class="color-hex form-input" data-key="skeletonColor" placeholder="inherit" maxlength="9"></div>
+              <div class="color-row" data-key="backButtonHoverBackground"><div class="color-picker"><div class="color-swatch" id="swatch-backButtonHoverBackground"></div><span class="color-label">Back hover</span><input type="color" id="color-backButtonHoverBackground" value="#F4F5F6" aria-label="Back hover"></div><input type="text" class="color-hex form-input" data-key="backButtonHoverBackground" placeholder="inherit" maxlength="9"></div>
+              <div class="color-row" data-key="showMoreBackground"><div class="color-picker"><div class="color-swatch" id="swatch-showMoreBackground"></div><span class="color-label">Show more background</span><input type="color" id="color-showMoreBackground" value="#F4F5F6" aria-label="Show more bg"></div><input type="text" class="color-hex form-input" data-key="showMoreBackground" placeholder="inherit" maxlength="9"></div>
+              <div class="color-row" data-key="showMoreBorderColor"><div class="color-picker"><div class="color-swatch" id="swatch-showMoreBorderColor"></div><span class="color-label">Show more border</span><input type="color" id="color-showMoreBorderColor" value="#E6E8EC" aria-label="Show more border"></div><input type="text" class="color-hex form-input" data-key="showMoreBorderColor" placeholder="inherit" maxlength="9"></div>
             </div>
           </div>
             </div>

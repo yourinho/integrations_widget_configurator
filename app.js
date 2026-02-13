@@ -230,12 +230,46 @@
       config.regions = [];
     }
 
-    document.querySelectorAll('.color-hex').forEach((input) => {
+    document.querySelectorAll('.color-hex[data-key]').forEach((input) => {
       const key = input.dataset.key;
       if (key && config.colors) {
         const val = input.value.trim();
-        config.colors[key] = hexToSixDigit(val) || window.WidgetConfig.DEFAULT_COLORS[key];
+        if (key === 'cardHoverShadow') {
+          config.colors[key] = val || '';
+        } else {
+          config.colors[key] = hexToSixDigit(val) || val || '';
+        }
       }
+    });
+
+    ['maxWidth', 'galleryPadding', 'galleryGap', 'galleryCardsGap', 'detailPadding', 'detailGap', 'detailCardsGap'].forEach((k) => {
+      const id = k.replace(/([A-Z])/g, '-$1').toLowerCase();
+      const el = document.getElementById(id);
+      if (el) config[k] = el.value.trim() || window.WidgetConfig.DEFAULT_LAYOUT_SPACING?.[k] || '';
+    });
+
+    const visibilityIds = { showGalleryTitle: 'show-gallery-title', showSearch: 'show-search', showShowMore: 'show-show-more', showDetailTitle: 'show-detail-title', showDetailSubtitle: 'show-detail-subtitle', showDetailTabs: 'show-detail-tabs', showSectionTitles: 'show-section-titles', showCardLogos: 'show-card-logos', showDetailCardType: 'show-detail-card-type', showDetailCardFooter: 'show-detail-card-footer' };
+    Object.entries(visibilityIds).forEach(([cfgKey, id]) => {
+      const el = document.getElementById(id);
+      if (el) config[cfgKey] = el.checked;
+    });
+
+    const typoMap = { galleryTitleSize: 'typography-gallery-title-size', galleryTitleWeight: 'typography-gallery-title-weight', searchSize: 'typography-search-size', cardTitleSize: 'typography-card-title-size', cardTitleWeight: 'typography-card-title-weight', detailTitleSize: 'typography-detail-title-size', detailTitleWeight: 'typography-detail-title-weight', detailSubtitleSize: 'typography-detail-subtitle-size', tabSize: 'typography-tab-size', sectionTitleSize: 'typography-section-title-size', detailCardNameSize: 'typography-detail-card-name-size', detailCardTypeSize: 'typography-detail-card-type-size', detailCardTypeWeight: 'typography-detail-card-type-weight', showMoreSize: 'typography-show-more-size', backSize: 'typography-back-size' };
+    const typoWeightKeys = ['galleryTitleWeight', 'cardTitleWeight', 'detailTitleWeight', 'detailCardTypeWeight'];
+    config.typography = config.typography || {};
+    Object.entries(typoMap).forEach(([cfgKey, id]) => {
+      const el = document.getElementById(id);
+      if (el) {
+        const val = el.value.trim();
+        config.typography[cfgKey] = typoWeightKeys.includes(cfgKey) ? (parseInt(val, 10) || window.WidgetConfig.DEFAULT_TYPOGRAPHY?.[cfgKey]) : (val || String(window.WidgetConfig.DEFAULT_TYPOGRAPHY?.[cfgKey] ?? ''));
+      }
+    });
+
+    const textMap = { galleryTitle: 'text-gallery-title', searchPlaceholder: 'text-search-placeholder', showMore: 'text-show-more', back: 'text-back', triggersTab: 'text-triggers-tab', actionsTab: 'text-actions-tab', triggersAndActionsTab: 'text-triggers-and-actions-tab', emptyGallery: 'text-empty-gallery', emptySearch: 'text-empty-search', emptyTriggers: 'text-empty-triggers', emptyActions: 'text-empty-actions', errorGeneral: 'text-error-general', errorServices: 'text-error-services', retry: 'text-retry' };
+    config.texts = config.texts || {};
+    Object.entries(textMap).forEach(([cfgKey, id]) => {
+      const el = document.getElementById(id);
+      if (el) config.texts[cfgKey] = el.value.trim() || String(window.WidgetConfig.DEFAULT_TEXTS?.[cfgKey] ?? '');
     });
   }
 
@@ -253,9 +287,10 @@
     Object.keys(defaults).forEach((key) => {
       const picker = document.getElementById('color-' + key);
       const hexInput = document.querySelector('.color-hex[data-key="' + key + '"]');
-      if (picker) picker.value = defaults[key];
-      if (hexInput) hexInput.value = defaults[key];
-      updateColorSwatch(key, defaults[key]);
+      const val = defaults[key] || '';
+      if (picker && key !== 'cardHoverShadow') picker.value = val || '#ffffff';
+      if (hexInput) hexInput.value = val;
+      updateColorSwatch(key, val);
     });
     applyCosmeticOptions();
   }
@@ -271,25 +306,107 @@
   }
 
   /**
-   * Update only cosmetic options (cardSize, detailCardSize, align, font, colors).
-   * Preserves current view — no full remount.
-   * Note: detailLayout changes DOM structure, so it requires reinit.
+   * Update display options in-place (no remount). Preserves current view (gallery or detail).
+   * Applies: typography, colors, layout, font, card sizes, radii, visibility, texts.
    */
-  function applyCosmeticOptions() {
+  function applyDisplayOptions() {
     syncConfigFromForm();
     const mount = getWidgetMount();
     if (!mount || !mount.classList.contains('albato-widget')) return;
-    const params = {
-      cardSize: config.cardSize,
-      detailCardSize: config.detailCardSize,
-      detailLayout: config.detailLayout,
-      align: config.align,
-      font: config.font,
-      colors: config.colors,
-      cardRadius: config.cardRadius,
-      detailCardRadius: config.detailCardRadius,
-    };
+    const params = window.WidgetConfig.getInitWidgetParams(config);
+    params.cardSize = config.cardSize;
+    params.detailCardSize = config.detailCardSize;
+    params.detailLayout = config.detailLayout;
+    params.align = config.align;
+    params.font = config.font;
+    params.colors = config.colors;
+    params.cardRadius = config.cardRadius;
+    params.detailCardRadius = config.detailCardRadius;
+    params.typography = config.typography;
+    params.texts = config.texts;
+    Object.keys(window.WidgetConfig.DEFAULT_VISIBILITY || {}).forEach((k) => { params[k] = config[k]; });
+    Object.keys(window.WidgetConfig.DEFAULT_LAYOUT_SPACING || {}).forEach((k) => { params[k] = config[k]; });
     window.WidgetLoader.updateWidgetOptions(mount, params);
+    applyTextsInPlace(mount);
+  }
+
+  function applyTextsInPlace(container) {
+    if (!container || !config.texts) return;
+    const t = config.texts;
+
+    /* Gallery view */
+    const galleryTitle = container.querySelector('.aw-gallery-title');
+    if (galleryTitle && t.galleryTitle) galleryTitle.textContent = t.galleryTitle;
+
+    const searchInput = container.querySelector('.aw-search-input');
+    if (searchInput && t.searchPlaceholder !== undefined) searchInput.placeholder = t.searchPlaceholder || '';
+
+    const showMoreBtn = container.querySelector('.aw-show-more');
+    if (showMoreBtn && t.showMore) showMoreBtn.textContent = t.showMore;
+
+    const emptyEl = container.querySelector('.aw-empty');
+    if (emptyEl) {
+      const p = emptyEl.querySelector('p');
+      const searchVal = searchInput?.value?.trim() || '';
+      if (p) p.textContent = searchVal ? (t.emptySearch || 'No services found') : (t.emptyGallery || 'No integrations available');
+    }
+
+    const errorEl = container.querySelector('.aw-error');
+    if (errorEl) {
+      const p = errorEl.querySelector('p');
+      if (p && t.errorServices) p.textContent = t.errorServices;
+    }
+
+    container.querySelectorAll('.aw-retry').forEach((btn) => {
+      if (t.retry) btn.textContent = t.retry;
+    });
+
+    /* Detail view */
+    const backBtn = container.querySelector('.aw-detail-back');
+    if (backBtn && t.back) {
+      const textNode = Array.from(backBtn.childNodes).find((n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim());
+      if (textNode) textNode.textContent = ' ' + t.back;
+      else {
+        const icon = backBtn.querySelector('.aw-detail-back-icon, svg');
+        if (icon) icon.after(' ' + t.back);
+      }
+    }
+
+    const tabs = container.querySelectorAll('.aw-detail-tab');
+    if (tabs.length >= 3) {
+      if (t.triggersAndActionsTab) tabs[0].textContent = t.triggersAndActionsTab;
+      if (t.triggersTab) tabs[1].textContent = t.triggersTab;
+      if (t.actionsTab) tabs[2].textContent = t.actionsTab;
+    } else if (tabs.length >= 2) {
+      if (t.triggersTab) tabs[0].textContent = t.triggersTab;
+      if (t.actionsTab) tabs[1].textContent = t.actionsTab;
+    }
+
+    container.querySelectorAll('.aw-detail-section-title').forEach((el) => {
+      const m = el.textContent.match(/^(.+?):\s*(\d+)$/);
+      if (m && t.triggersTab && t.actionsTab) {
+        const label = m[1].toLowerCase().includes('action') ? t.actionsTab : t.triggersTab;
+        el.textContent = label + ': ' + m[2];
+      }
+    });
+
+    /* Detail empty states (triggers vs actions) */
+    container.querySelectorAll('.aw-detail-empty').forEach((el) => {
+      const p = el.querySelector('p');
+      if (!p) return;
+      const section = el.closest('[data-section]');
+      const col = el.closest('.aw-detail-column');
+      const block = el.closest('.aw-detail-block');
+      const isTriggers = (section?.dataset.section === 'triggers') ||
+        (col && !col.previousElementSibling) ||
+        (block && !block.previousElementSibling);
+      p.textContent = isTriggers ? (t.emptyTriggers || 'This service has no available triggers') : (t.emptyActions || 'This service has no available actions');
+    });
+
+  }
+
+  function applyCosmeticOptions() {
+    applyDisplayOptions();
   }
 
   /**
@@ -379,9 +496,40 @@
 
     if (detailLayoutSelect) detailLayoutSelect.addEventListener('change', reinitWidget);
 
+    initLayoutSpacing();
+    initVisibility();
+    initTypography();
+    initTexts();
     initIntegrationFilter();
     initColorFields();
     initPartnerIds();
+  }
+
+  function initLayoutSpacing() {
+    ['max-width', 'gallery-padding', 'gallery-gap', 'gallery-cards-gap', 'detail-padding', 'detail-gap', 'detail-cards-gap'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', () => debounce('layout', applyDisplayOptions));
+    });
+  }
+
+  function initVisibility() {
+    ['show-gallery-title', 'show-search', 'show-show-more', 'show-detail-title', 'show-detail-subtitle', 'show-detail-tabs', 'show-section-titles', 'show-card-logos', 'show-detail-card-type', 'show-detail-card-footer'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('change', applyDisplayOptions);
+    });
+  }
+
+  function initTypography() {
+    document.querySelectorAll('#accordion-typography input, #accordion-typography select').forEach((el) => {
+      el.addEventListener('input', () => debounce('typo', applyDisplayOptions));
+      el.addEventListener('change', applyDisplayOptions);
+    });
+  }
+
+  function initTexts() {
+    document.querySelectorAll('#accordion-texts input, #accordion-texts textarea').forEach((el) => {
+      el.addEventListener('input', () => debounce('texts', applyDisplayOptions));
+    });
   }
 
   function initIntegrationFilter() {
@@ -653,20 +801,25 @@
       if (!key) return;
       const picker = row.querySelector('input[type="color"]');
       const hexInput = row.querySelector('.color-hex');
-      if (!picker || !hexInput) return;
+      if (!hexInput) return;
 
-      picker.addEventListener('input', () => {
-        hexInput.value = picker.value;
-        updateColorSwatch(key, picker.value);
-        syncConfigFromForm();
-        applyCosmeticOptions();
-      });
+      if (picker) {
+        picker.addEventListener('input', () => {
+          hexInput.value = picker.value;
+          updateColorSwatch(key, picker.value);
+          syncConfigFromForm();
+          applyCosmeticOptions();
+        });
+      }
 
       hexInput.addEventListener('input', () => {
-        const hex = hexToSixDigit(hexInput.value.trim());
-        if (hex) {
+        const val = hexInput.value.trim();
+        const hex = hexToSixDigit(val);
+        if (hex && picker) {
           picker.value = hex;
           updateColorSwatch(key, hex);
+        } else if (key === 'cardHoverShadow' || !picker) {
+          updateColorSwatch(key, val);
         }
         syncConfigFromForm();
         debounce('color', applyCosmeticOptions);

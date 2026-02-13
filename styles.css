@@ -704,6 +704,58 @@ input[type="number"].number-input-target {
   color: #2C3534;
 }
 
+.layout-spacing-section,
+.typography-section,
+.texts-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 16px;
+}
+
+.typography-subtitle,
+.texts-subtitle,
+.colors-subtitle,
+.visibility-subtitle {
+  margin: 12px 0 4px 0;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: #777e90;
+}
+
+.typography-subtitle:first-of-type,
+.texts-subtitle:first-of-type,
+.colors-subtitle:first-of-type,
+.visibility-subtitle:first-of-type {
+  margin-top: 0;
+}
+
+.visibility-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 16px;
+}
+
+.visibility-section .form-checkbox {
+  margin: 0;
+}
+
+.color-row-shadow {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.color-row-shadow .color-label {
+  margin-bottom: 4px;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
 .card-sizes-section {
   display: flex;
   flex-direction: column;
@@ -1188,6 +1240,18 @@ input[type="number"].number-input-target {
   color: #A0A4B1;
   font-size: 15px;
 }
+
+/* Visibility overrides (applied in-place without remount) */
+#widget-mount[data-show-gallery-title="false"] .aw-gallery-title { display: none !important; }
+#widget-mount[data-show-search="false"] .aw-search { display: none !important; }
+#widget-mount[data-show-show-more="false"] .aw-show-more { display: none !important; }
+#widget-mount[data-show-detail-title="false"] .aw-detail-title { display: none !important; }
+#widget-mount[data-show-detail-subtitle="false"] .aw-detail-subtitle { display: none !important; }
+#widget-mount[data-show-detail-tabs="false"] .aw-detail-tabs { display: none !important; }
+#widget-mount[data-show-section-titles="false"] .aw-detail-section-title { display: none !important; }
+#widget-mount[data-show-card-logos="false"] .aw-card-logo { display: none !important; }
+#widget-mount[data-show-detail-card-type="false"] .aw-detail-card-type { display: none !important; }
+#widget-mount[data-show-detail-card-footer="false"] .aw-detail-card-footer { display: none !important; }
 
 /* ===== Preview Error State ===== */
 .preview-error {
