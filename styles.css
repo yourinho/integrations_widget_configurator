@@ -615,6 +615,15 @@ input[type="number"].number-input-target {
   color: #2C3534;
 }
 
+.card-sizes-section {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  padding-bottom: 16px;
+  gap: 16px;
+  border-bottom: 1px solid #dfe3e6;
+}
+
 .integration-filter-panel {
   display: flex;
   flex-direction: column;
