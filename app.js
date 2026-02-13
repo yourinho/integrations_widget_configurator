@@ -21,9 +21,21 @@
   function init() {
     config = window.WidgetConfig.getDefaultConfig();
     initPreviewToggle();
+    initAccordions();
     initSettingsPanel();
     initWidgetPreview();
     initEmbedModal();
+  }
+
+  function initAccordions() {
+    document.querySelectorAll('.accordion-trigger').forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const item = trigger.closest('.accordion-item');
+        if (!item) return;
+        const collapsed = item.classList.toggle('is-collapsed');
+        trigger.setAttribute('aria-expanded', String(!collapsed));
+      });
+    });
   }
 
   function initPreviewToggle() {

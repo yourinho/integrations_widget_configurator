@@ -79,6 +79,63 @@ body {
   gap: 20px;
 }
 
+/* ===== Accordion ===== */
+.accordion-item {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #dfe3e6;
+}
+
+.accordion-item:last-child {
+  border-bottom: none;
+}
+
+.accordion-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 0 12px 0;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 24px;
+  color: #2C3534;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.15s ease;
+}
+
+.accordion-trigger:hover {
+  color: #ff592c;
+}
+
+.accordion-chevron {
+  flex-shrink: 0;
+  margin-left: 8px;
+  color: #777e90;
+  transition: transform 0.2s ease;
+}
+
+.accordion-item.is-collapsed .accordion-chevron {
+  transform: rotate(-180deg);
+}
+
+.accordion-content {
+  max-height: 3000px;
+  overflow: hidden;
+  transition: max-height 0.25s ease;
+  padding-top: 4px;
+}
+
+.accordion-item.is-collapsed .accordion-content {
+  max-height: 0;
+  padding-top: 0;
+  overflow: hidden;
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -310,6 +367,12 @@ input[type="number"].number-input-target {
   box-sizing: border-box;
   max-height: 280px;
   overflow-y: auto;
+}
+
+.custom-select-menu.custom-select-menu-fixed {
+  position: fixed;
+  z-index: 10000;
+  right: auto;
 }
 
 .custom-select-menu.is-open {

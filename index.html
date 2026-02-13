@@ -39,8 +39,13 @@
     <aside class="sidebar">
       <div class="sidebar-content">
         <form class="settings-form" id="settings-form">
-          <div class="widget-url-section">
-            <span class="url-label">Widget script URL</span>
+          <div class="accordion-item is-collapsed">
+            <button type="button" class="accordion-trigger" aria-expanded="false" aria-controls="accordion-widget-url" id="accordion-widget-url-trigger">
+              <span class="accordion-title">Widget script URL</span>
+              <svg class="accordion-chevron" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 8l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div id="accordion-widget-url" class="accordion-content" role="region" aria-labelledby="accordion-widget-url-trigger">
+              <div class="widget-url-section">
             <div class="url-input-row">
               <div class="url-input" id="url-input-wrap">
                 <svg class="url-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -65,9 +70,16 @@
             </div>
             <span class="form-hint form-error" id="url-error" aria-live="polite"></span>
           </div>
+            </div>
+          </div>
 
+          <div class="accordion-item is-collapsed">
+            <button type="button" class="accordion-trigger" aria-expanded="false" aria-controls="accordion-app-filters" id="accordion-app-filters-trigger">
+              <span class="accordion-title">App filters</span>
+              <svg class="accordion-chevron" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 8l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div id="accordion-app-filters" class="accordion-content" role="region" aria-labelledby="accordion-app-filters-trigger">
           <div class="integration-filter-section">
-            <h3 class="integration-filter-title">App filters</h3>
             <div class="integration-filter-tabs" role="tablist">
               <button type="button" class="integration-tab active" role="tab" aria-selected="true" data-tab="region">By region</button>
               <span class="integration-tab-divider" aria-hidden="true"></span>
@@ -107,9 +119,16 @@
               <span class="form-hint form-error" id="partnerIds-error" aria-live="polite"></span>
             </div>
           </div>
+            </div>
+          </div>
 
+          <div class="accordion-item is-collapsed">
+            <button type="button" class="accordion-trigger" aria-expanded="false" aria-controls="accordion-layout" id="accordion-layout-trigger">
+              <span class="accordion-title">Layout & alignment</span>
+              <svg class="accordion-chevron" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 8l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div id="accordion-layout" class="accordion-content" role="region" aria-labelledby="accordion-layout-trigger">
           <div class="layout-section">
-            <h3 class="layout-section-title">Layout & alignment</h3>
             <div class="form-group">
               <label for="card-radius">Partner card radius (px)</label>
               <div class="number-input-wrap">
@@ -157,9 +176,16 @@
               </select>
             </div>
           </div>
+            </div>
+          </div>
 
+          <div class="accordion-item is-collapsed">
+            <button type="button" class="accordion-trigger" aria-expanded="false" aria-controls="accordion-card-sizes" id="accordion-card-sizes-trigger">
+              <span class="accordion-title">Card sizes</span>
+              <svg class="accordion-chevron" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 8l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div id="accordion-card-sizes" class="accordion-content" role="region" aria-labelledby="accordion-card-sizes-trigger">
           <div class="card-sizes-section">
-            <h3 class="layout-section-title">Card sizes</h3>
             <div class="form-group">
               <label for="card-size">Card size</label>
               <select id="card-size" class="form-select custom-select-target">
@@ -177,18 +203,32 @@
               </select>
             </div>
           </div>
+            </div>
+          </div>
 
+          <div class="accordion-item is-collapsed">
+            <button type="button" class="accordion-trigger" aria-expanded="false" aria-controls="accordion-typography" id="accordion-typography-trigger">
+              <span class="accordion-title">Typography</span>
+              <svg class="accordion-chevron" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 8l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div id="accordion-typography" class="accordion-content" role="region" aria-labelledby="accordion-typography-trigger">
           <div class="font-section">
-            <h3 class="font-section-title">Typography</h3>
             <div class="form-group">
               <label for="font">Select font</label>
               <select id="font" class="form-select custom-select-target"></select>
             </div>
           </div>
+            </div>
+          </div>
 
+          <div class="accordion-item is-collapsed">
+            <button type="button" class="accordion-trigger" aria-expanded="false" aria-controls="accordion-colors" id="accordion-colors-trigger">
+              <span class="accordion-title">Colors</span>
+              <svg class="accordion-chevron" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 8l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div id="accordion-colors" class="accordion-content" role="region" aria-labelledby="accordion-colors-trigger">
           <div class="colors-section">
             <div class="colors-section-header">
-              <span class="section-title">Colors</span>
               <button type="button" class="btn-reset-colors">
                 <svg class="btn-reset-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M1 4v6h6"/>
@@ -271,6 +311,8 @@
                 </div>
                 <input type="text" class="color-hex form-input" data-key="detailCardBackground" value="#FFFFFF" maxlength="9">
               </div>
+            </div>
+          </div>
             </div>
           </div>
         </form>
