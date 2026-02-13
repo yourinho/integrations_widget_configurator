@@ -88,6 +88,12 @@ body {
   padding: 24px;
   padding-bottom: 80px;
   overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.sidebar-content::-webkit-scrollbar {
+  display: none;
 }
 
 /* ===== Settings Form ===== */
@@ -1143,6 +1149,12 @@ input[type="number"].number-input-target {
   justify-content: center;
   align-items: flex-start;
   overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.preview-wrapper::-webkit-scrollbar {
+  display: none;
 }
 
 .preview-wrapper.desktop .widget-wrapper {
