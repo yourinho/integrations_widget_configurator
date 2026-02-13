@@ -228,6 +228,9 @@
       config.detailCardRadius = !isNaN(v) && v >= 0 ? v : 8;
     }
 
+    const languageSelect = document.getElementById('language-select');
+    if (languageSelect) config.language = languageSelect.value || window.WidgetConfig.DEFAULT_LANGUAGE;
+
     if (mode === 'region') {
       const regionSelect = document.getElementById('region-select');
       const regionValue = regionSelect?.value || 'all';
@@ -583,6 +586,14 @@
 
     if (regionSelect) {
       regionSelect.addEventListener('change', () => {
+        syncConfigFromForm();
+        reinitWidget();
+      });
+    }
+
+    const languageSelect = document.getElementById('language-select');
+    if (languageSelect) {
+      languageSelect.addEventListener('change', () => {
         syncConfigFromForm();
         reinitWidget();
       });
