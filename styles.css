@@ -115,9 +115,11 @@ body {
   width: 100%;
   padding: 0 0 12px 0;
   font-family: 'Inter', sans-serif;
+  font-style: normal;
   font-weight: 600;
-  font-size: 17px;
-  line-height: 24px;
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: -0.01em;
   color: #2C3534;
   background: transparent;
   border: none;
