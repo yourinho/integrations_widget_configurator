@@ -75,7 +75,7 @@
                   <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
                 </svg>
                 <input type="text" id="widget-url" class="url-value" maxlength="512"
-                  placeholder="https://..." value="https://yourinho.github.io/integrations_widget/albato-widget.iife.js">
+                  placeholder="https://..." value="https://yourinho.github.io/integrations_widget/albato-widget-global.iife.js">
               </div>
               <button type="button" class="icon-button" id="url-copy" aria-label="Copy URL" title="Copy">
                 <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -112,10 +112,9 @@
               <div class="form-group">
                 <label for="region-select">Region</label>
                 <select id="region-select" class="form-select custom-select-target">
-                  <option value="all">All regions</option>
                   <option value="brazil">Only Brazil</option>
                   <option value="global">Only global</option>
-                  <option value="brazil-global">Brazil and global</option>
+                  <option value="brazil-global" selected>Brazil and global</option>
                 </select>
               </div>
             </div>
@@ -153,8 +152,7 @@
               <div class="form-group">
                 <label for="language-select">Language</label>
                 <select id="language-select" class="form-select custom-select-target">
-                  <option value="en">English</option>
-                  <option value="ru">Русский</option>
+                  <option value="en" selected>English</option>
                   <option value="de">Deutsch</option>
                   <option value="es">Español</option>
                   <option value="fr">Français</option>
@@ -589,6 +587,7 @@
     </div>
   </div>
 
+  <script src="lib/variant-config.js"></script>
   <script src="lib/config.js"></script>
   <script src="lib/devices.js"></script>
   <script src="lib/validation.js"></script>

@@ -416,6 +416,36 @@
     applyDisplayOptions();
   }
 
+  function initVariantForm() {
+    if (typeof window.VariantConfig === 'undefined') return;
+    const regionSelect = document.getElementById('region-select');
+    const languageSelect = document.getElementById('language-select');
+    if (regionSelect) {
+      const options = window.VariantConfig.getRegionOptions();
+      regionSelect.innerHTML = options
+        .map((o) => `<option value="${String(o.value).replace(/"/g, '&quot;')}">${escapeHtml(o.label)}</option>`)
+        .join('');
+      const regionValue = window.WidgetConfig.regionsToRegionValue(config.regions);
+      if (Array.from(regionSelect.options).some((opt) => opt.value === regionValue)) {
+        regionSelect.value = regionValue;
+      } else {
+        regionSelect.value = window.VariantConfig.getDefaultRegion();
+      }
+    }
+    if (languageSelect) {
+      const languages = window.VariantConfig.getSupportedLanguages();
+      languageSelect.innerHTML = languages
+        .map((o) => `<option value="${String(o.value).replace(/"/g, '&quot;')}">${escapeHtml(o.label)}</option>`)
+        .join('');
+      const lang = config.language || window.WidgetConfig.DEFAULT_LANGUAGE;
+      if (languages.some((o) => o.value === lang)) {
+        languageSelect.value = lang;
+      } else {
+        languageSelect.value = window.VariantConfig.getDefaultLanguage();
+      }
+    }
+  }
+
   /**
    * Full reinit — required when widgetUrl, regions, or partnerIds change.
    */
@@ -425,6 +455,7 @@
   }
 
   function initSettingsPanel() {
+    initVariantForm();
     const urlInput = document.getElementById('widget-url');
     const fontSelect = document.getElementById('font');
     const cardSizeSelect = document.getElementById('card-size');
@@ -568,7 +599,12 @@
       panelManual?.removeAttribute('hidden');
       panelRegion?.setAttribute('hidden', '');
       if (regionSelect) {
-        regionSelect.value = 'all';
+        const defaultRegion = (typeof window.VariantConfig !== 'undefined')
+          ? window.VariantConfig.getDefaultRegion()
+          : 'all';
+        regionSelect.value = Array.from(regionSelect.options).some((o) => o.value === defaultRegion)
+          ? defaultRegion
+          : regionSelect.options[0]?.value || 'all';
         regionSelect.dispatchEvent(new Event('change', { bubbles: true }));
       } else {
         config.regions = [];
